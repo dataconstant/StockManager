@@ -1,7 +1,7 @@
 # App - _Insert app name_
 
 ## Team structure and roles
-+ Abhiskeh Chetri u1234567 - team member
++ Abhishek Chetri u6647717 - team member
 + Mansoor Ali Halari u6621243 - team member
 
 ## App Overview
@@ -18,24 +18,17 @@ _Add a paragraph the gives a summary of the app you implemented. Include a small
 + [Meeting 4 - date - review and practice demo](meeting4)
 
 ## Statement of Originality
-
-I _insert name 1_ declare that everything I have submitted in this
+I Abhishek Chetri declare that everything I have submitted in this
 assignment is entirely my own work, with exceptions given below.
 
-I _insert name 2_ declare that everything I have submitted in this
-assignment is entirely my own work, with exceptions given below.
-
-I _insert name 3_ declare that everything I have submitted in this
+I Mansoor Ali Halari declare that everything I have submitted in this
 assignment is entirely my own work, with exceptions given below.
 
 ### Inspiration
-
 _add references from where you obtained the idea form the app and ideas about aspects of the app_
 
 ### Code
-
 _reference all the code or ideas for code from other sources_
 
 ### Assets
-
 _this includes images, sounds, etc._
