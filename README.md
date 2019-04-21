@@ -3,6 +3,7 @@
 ## Team structure and roles
 + Abhishek Chetri u6647717 - team member
 + Mansoor Ali Halari u6621243 - team member
++ Dileep Vemula u6631257 - team member
 
 ## App Overview
 _Add a paragraph the gives a summary of the app you implemented. Include a small screen shot here._
@@ -22,6 +23,9 @@ I Abhishek Chetri declare that everything I have submitted in this
 assignment is entirely my own work, with exceptions given below.
 
 I Mansoor Ali Halari declare that everything I have submitted in this
+assignment is entirely my own work, with exceptions given below.
+
+I Dileep Vemula declare that everything I have submitted in this
 assignment is entirely my own work, with exceptions given below.
 
 ### Inspiration
