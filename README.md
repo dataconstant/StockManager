@@ -13,7 +13,7 @@ _Add a paragraph the gives a summary of the app you implemented. Include a small
 + [Testing Summary](testingsummary)
 
 ## Minuted Meetings
-+ [Meeting 1 - date - decide team structure and app](meeting1)
++ [Meeting 1 - date - decide team structure and app](meeting1.md)
 + [Meeting 2 - date - divide up tasks](meeting2)
 + [Meeting 3 - date - consider and plan extension aspects](meeting3)
 + [Meeting 4 - date - review and practice demo](meeting4)
