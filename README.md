@@ -1,7 +1,7 @@
 # App - _Insert app name_
 
 ## Team structure and roles
-+ Abhishek Chetri u6647717 - team member
++ Abhishek Chetri u6647717 - team Leader
 + Mansoor Ali Halari u6621243 - team member
 + Dileep Vemula u6631257 - team member
 + Kruthi Senapathi u6601532 - team member 
