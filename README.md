@@ -4,6 +4,7 @@
 + Abhishek Chetri u6647717 - team member
 + Mansoor Ali Halari u6621243 - team member
 + Dileep Vemula u6631257 - team member
++ Kruthi Senapathi u6601532 - team member 
 
 ## App Overview
 _Add a paragraph the gives a summary of the app you implemented. Include a small screen shot here._
@@ -27,6 +28,11 @@ assignment is entirely my own work, with exceptions given below.
 
 I Dileep Vemula declare that everything I have submitted in this
 assignment is entirely my own work, with exceptions given below.
+
+I Kruthi Senapathi declare that everything I have submitted in this
+assignment is entirely my own work, with exceptions given below.
+
+
 
 ### Inspiration
 _add references from where you obtained the idea form the app and ideas about aspects of the app_
