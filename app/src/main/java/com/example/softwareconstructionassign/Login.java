@@ -7,7 +7,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class Login extends AppCompatActivity {
     ImageView imageView;
     Button button1;
     Button button2;
