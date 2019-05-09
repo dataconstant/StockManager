@@ -42,3 +42,4 @@ _reference all the code or ideas for code from other sources_
 
 ### Assets
 + Credentials for database - Username - softwareconstructionassignment@gmail.com Password - comp6442
++ API key - GF4EX3XKAFSY29GH
