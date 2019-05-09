@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">SoftwareConstructionAssign</string>
+    <string name="app_name">Stock Manager</string>
+    <string name="screen_portfolio">Portfolio Manager</string>
+    <string name="edit_message">Enter password!</string>
 </resources>
