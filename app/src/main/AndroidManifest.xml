@@ -11,7 +11,6 @@
         android:roundIcon="@mipmap/iconlauncher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".signUp"></activity>
         <activity
             android:name=".livefeed"
             android:parentActivityName=".mainscreen" />

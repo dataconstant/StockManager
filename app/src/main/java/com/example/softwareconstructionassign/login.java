@@ -65,7 +65,7 @@ public class login extends AppCompatActivity {
 
             emailclass useremail = new emailclass(id,emailaddress,pass);
             dblogin.child(id).setValue(useremail);
-            Toast.makeText(this,"Inserted", Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"User Registered", Toast.LENGTH_LONG).show();
 
             email.setText("");
             password.setText("");
