@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.softwareconstructionassign">
+
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/iconlauncher"
@@ -9,20 +11,18 @@
         android:roundIcon="@mipmap/iconlauncher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".signUp"></activity>
         <activity
             android:name=".livefeed"
-            android:parentActivityName=".mainscreen"
-            />
+            android:parentActivityName=".mainscreen" />
         <activity
             android:name=".analytics"
-            android:parentActivityName=".mainscreen"
-            />
-        <activity
-            android:name=".mainscreen"
-            />
+            android:parentActivityName=".mainscreen" />
+        <activity android:name=".mainscreen" />
         <activity android:name=".login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
