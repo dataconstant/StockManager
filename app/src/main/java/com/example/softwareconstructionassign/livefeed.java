@@ -65,6 +65,7 @@ public class livefeed extends AppCompatActivity {
                         Iterator<String> iter = value.keys();
                         double x=0,y=0;
                         String date1="",date2="";
+                        
                         while (iter.hasNext()) {
                             String key = iter.next();
                             x += 1;
