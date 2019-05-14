@@ -4,14 +4,16 @@ public class emailclass {
     String id;
     String email;
     String password;
+    String stocks;
 
     public emailclass(){
     }
 
-    public emailclass(String id, String email, String password) {
+    public emailclass(String id, String email, String password, String stocks) {
         this.id = id;
         this.email = email;
         this.password = password;
+        this.stocks = stocks;
     }
 
     @Override
@@ -45,5 +47,13 @@ public class emailclass {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getstocks() {
+        return stocks;
+    }
+
+    public void setstocks(String password) {
+        this.stocks = stocks;
     }
 }
