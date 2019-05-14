@@ -6,7 +6,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class mainscreen extends AppCompatActivity {
 
@@ -15,13 +29,39 @@ public class mainscreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
 
-        // Get the Intent that started this activity and extract the string
         String email = (String) getIntent().getSerializableExtra("email");
-        System.out.println(email);
 
-        // Capture the layout's TextView and set the string as its text
-        TextView textView = findViewById(R.id.textView1);
-//        textView.setText("Abhishek");
+        final TextView search = findViewById(R.id.editText);
+        final Button buttonsearch = (Button) findViewById(R.id.searchButton);
+        final RequestQueue queue = Volley.newRequestQueue(this);
+
+        buttonsearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String term = search.getText().toString();
+                String url = "https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords="+term+"&apikey=GF4EX3XKAFSY29GH";
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                        (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                try {
+                                    JSONArray ts = response.getJSONArray("bestMatches");
+                                    JSONObject result = ts.getJSONObject(0);
+                                    Toast.makeText(getApplicationContext(),result.getString("2. name"),Toast.LENGTH_SHORT).show();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                // TODO: Handle error
+                            }
+                        });
+                queue.add(jsonObjectRequest);
+
+            }
+        });
 
     }
 
