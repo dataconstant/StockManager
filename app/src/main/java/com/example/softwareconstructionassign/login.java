@@ -107,7 +107,7 @@ public class login extends AppCompatActivity {
             String id = emailaddress.split("@")[0];
 
 
-            emailclass useremail = new emailclass(id, emailaddress, pass);
+            emailclass useremail = new emailclass(id, emailaddress, pass, "");
 
             dblogin.child(id).setValue(useremail);
             Toast.makeText(this, "User Registered", Toast.LENGTH_LONG).show();
