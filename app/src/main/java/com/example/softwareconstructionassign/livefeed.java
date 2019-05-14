@@ -1,26 +1,33 @@
 package com.example.softwareconstructionassign;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Iterator;
 
 public class livefeed extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,33 +36,21 @@ public class livefeed extends AppCompatActivity {
         setContentView(R.layout.activity_livefeed);
         Intent intent = getIntent();
 
-        final TextView textView = findViewById(R.id.textView1);
-        textView.setText("Mansoor");
+        Spinner spinner = (Spinner) findViewById(R.id.planets_spinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.stocks_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
 
-        // ...
-/*
-        // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT&interval=5min&apikey='GF4EX3XKAFSY29GH'";
+        final TextView textView_date1 = findViewById(R.id.textView1);
+        final TextView textView_date2 = findViewById(R.id.textView2);
 
-// Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        // Display the first 500 characters of the response string.
-                        textView.setText("Response is: "+ response);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                textView.setText("That didn't work!");
-            }
-        });
-
-// Add the request to the RequestQueue.
-        queue.add(stringRequest);
-*/
+        final LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>();
+        final GraphView graph = (GraphView) findViewById(R.id.graph);
+        graph.setVisibility(View.INVISIBLE);
         // Instantiate the RequestQueue
         RequestQueue queue = Volley.newRequestQueue(this);
         String url ="https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=MSFT&outputsize=compact&apikey='GF4EX3XKAFSY29GH'";
@@ -66,28 +61,29 @@ public class livefeed extends AppCompatActivity {
                 public void onResponse(JSONObject response) {
                     try {
                         JSONObject value = response.getJSONObject("Time Series (Daily)");
-                        String test="";
-                        String test2="";
                         Iterator<String> iter = value.keys();
+                        double x=0,y=0;
+                        String date1="",date2="";
+                        
                         while (iter.hasNext()) {
                             String key = iter.next();
-                            test += key;
+                            x += 1;
+                            if (date1 == "") date1 = key;
                             try {
                                 JSONObject value1 = value.getJSONObject(key);
-                                Iterator<String> iter1 = value1.keys();
-                                while (iter1.hasNext()) {
-                                    String key1 = iter1.next();
-                                    //test2 += key1+"\n";
-                                    test2 += value1.getString("4. close");
-                                }
-                                //test2 += value.toString();
+                                 y = Double.parseDouble(value1.getString("4. close"));
+                                series.appendData(new DataPoint(x,y),true,value.length());
                             } catch (JSONException e) {
-                                textView.setText("That didn't work! response");
+                                // add code if needed
                             }
+                            date2 = key;
                         }
-                        textView.setText(test2);
+                        textView_date1.setText(date2);
+                        textView_date2.setText(date1);
+                        graph.addSeries(series);
+                        graph.setVisibility(View.VISIBLE);
                     } catch (JSONException e) {
-                        textView.setText("That didn't work! object");
+                        // add code if needed
                     }
                 }
             }, new Response.ErrorListener() {
@@ -97,8 +93,6 @@ public class livefeed extends AppCompatActivity {
             }
         );
         queue.add(jsonObjectRequest);
-        // Access the RequestQueue through your singleton class.
-        // MySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
     }
 
 

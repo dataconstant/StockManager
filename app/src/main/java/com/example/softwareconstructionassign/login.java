@@ -59,6 +59,7 @@ public class login extends AppCompatActivity {
 
     }
 
+
     private void validDataCheck(){
 
         dblogin.addValueEventListener(new ValueEventListener() {
@@ -95,7 +96,9 @@ public class login extends AppCompatActivity {
     }
 
 
-    private void addemail() {
+
+    private void addemail(){
+
         String emailaddress = email.getText().toString().trim();
         String pass = password.getText().toString().trim();
 
@@ -103,7 +106,9 @@ public class login extends AppCompatActivity {
 
             String id = emailaddress.split("@")[0];
 
+
             emailclass useremail = new emailclass(id, emailaddress, pass);
+
             dblogin.child(id).setValue(useremail);
             Toast.makeText(this, "User Registered", Toast.LENGTH_LONG).show();
 

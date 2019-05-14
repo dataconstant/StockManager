@@ -2,4 +2,11 @@
     <string name="app_name">Stock Manager</string>
     <string name="screen_portfolio">Portfolio Manager</string>
     <string name="edit_message">Enter password!</string>
+
+    <string-array name="stocks_array">
+        <item>MSFT</item>
+        <item>MSFT1</item>
+
+    </string-array>
+
 </resources>
