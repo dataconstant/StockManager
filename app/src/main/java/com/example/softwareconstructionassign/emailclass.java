@@ -5,13 +5,15 @@ public class emailclass {
     String email;
     String password;
 
-    public emailclass(){
-    }
 
     public emailclass(String id, String email, String password) {
         this.id = id;
         this.email = email;
         this.password = password;
+    }
+
+    public emailclass(Object value) {
+
     }
 
     @Override

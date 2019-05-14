@@ -54,6 +54,7 @@
         android:gravity="right"
         android:text="Not a member yet?"
         android:textColor="#81653C"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/buttonSignUp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/buttonSignUp"

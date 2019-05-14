@@ -1,8 +1,8 @@
 package com.example.softwareconstructionassign;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,7 +16,8 @@ public class mainscreen extends AppCompatActivity {
         setContentView(R.layout.activity_main_screen);
 
         // Get the Intent that started this activity and extract the string
-        Intent intent = getIntent();
+        String email = (String) getIntent().getSerializableExtra("email");
+        System.out.println(email);
 
         // Capture the layout's TextView and set the string as its text
         TextView textView = findViewById(R.id.textView1);
