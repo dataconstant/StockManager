@@ -112,10 +112,10 @@ public class login extends AppCompatActivity {
             emailclass useremail = new emailclass(id, emailaddress, pass, "");
 
             dblogin.child(id).setValue(useremail);
-            Toast.makeText(this, "User Registered already", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "User Registered", Toast.LENGTH_LONG).show();
 
-           /* email.setText("");
-            password.setText("");*/
+            email.setText("");
+            password.setText("");
 
         } else {
             Toast.makeText(this, "Please enter a valid email address to sign up", Toast.LENGTH_LONG).show();
