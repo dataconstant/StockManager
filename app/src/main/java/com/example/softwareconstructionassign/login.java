@@ -43,10 +43,8 @@ public class login extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("method running");
-                //Toast.makeText(getApplicationContext(), "Please enter a valid email address and password", Toast.LENGTH_LONG).show();
                 validDataCheck();
-                /**/
+
             }
         });
 
@@ -60,31 +58,12 @@ public class login extends AppCompatActivity {
     }
 
 
-    private void validDataCheck(){
+    private void validDataCheck() {
 
         dblogin.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 showData(dataSnapshot);
-            }
-
-            private void showData(DataSnapshot dataSnapshot) {
-                String emailaddress1 = email.getText().toString();
-                String pass1 = password.getText().toString();
-
-                for (DataSnapshot ds : dataSnapshot.getChildren()){
-                    emailclass eid = new emailclass(ds.getValue());
-                    eid.setEmail(ds.child("email").getValue().toString());
-                    eid.setPassword(ds.child("password").getValue().toString());
-                    if (eid.email.equals(emailaddress1) && eid.password.equals(pass1)){
-                        Intent myIntent = new Intent(getBaseContext(), mainscreen.class);
-                        myIntent.putExtra("email",emailaddress1);
-                        startActivity(myIntent);
-
-                    }
-                }
-
-
             }
 
             @Override
@@ -95,28 +74,51 @@ public class login extends AppCompatActivity {
 
     }
 
+    private void showData(DataSnapshot dataSnapshot) {
+        String emailaddress1 = email.getText().toString();
+        String pass1 = password.getText().toString();
+        boolean cond = false;
+        if (!(emailaddress1.isEmpty() || pass1.isEmpty())) {
+            for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                emailclass eid = new emailclass(ds.getValue());
+                eid.setEmail(ds.child("email").getValue().toString());
+                eid.setPassword(ds.child("password").getValue().toString());
+                if (eid.email.equals(emailaddress1) && eid.password.equals(pass1)) {
+                    cond = true;
+                    break;
+                }
+            }
+            if (cond == true) {
+                Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_LONG).show();
+                Intent myIntent = new Intent(getBaseContext(), mainscreen.class);
+                myIntent.putExtra("email", emailaddress1);
+                startActivity(myIntent);
+            } else {
+                Toast.makeText(getApplicationContext(), "Incorrect  email or Password", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Toast.makeText(getApplicationContext(), "Empty! Please enter email or password", Toast.LENGTH_LONG).show();
+        }
+    }
 
 
-    private void addemail(){
+    private void addemail() {
 
         String emailaddress = email.getText().toString().trim();
         String pass = password.getText().toString().trim();
 
-        if (!emailaddress.isEmpty()) {
-
+        if (!(emailaddress.isEmpty() || pass.isEmpty())) {
             String id = emailaddress.split("@")[0];
-
-
             emailclass useremail = new emailclass(id, emailaddress, pass, "");
 
             dblogin.child(id).setValue(useremail);
-            Toast.makeText(this, "User Registered", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "User Registered already", Toast.LENGTH_LONG).show();
 
-            email.setText("");
-            password.setText("");
+           /* email.setText("");
+            password.setText("");*/
 
         } else {
-            Toast.makeText(this, "Please enter a valid email address", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Please enter a valid email address to sign up", Toast.LENGTH_LONG).show();
         }
     }
 }
