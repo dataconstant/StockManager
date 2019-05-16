@@ -8,18 +8,47 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.DataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
+
+import java.util.ArrayList;
+
 public class analytics extends AppCompatActivity {
+    private BarChart mchart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_analytics);
         Intent intent = getIntent();
-
-        TextView textView = findViewById(R.id.textView1);
-        textView.setText("Kruthi");
+       // TextView textView = findViewById(R.id.textView1);
+        //textView.setText("Kruthi");
+        mchart =(BarChart) findViewById(R.id.barchart);
+        mchart.getDescription().setEnabled(false);
+        setData(10);
+        mchart.setFitBars(true);
     }
+    private void setData(int count){
+        ArrayList<BarEntry> yvals = new ArrayList<>();
+        for(int i=0;i<count;i++)
+        {
+            float value=(float)(Math.random()*100);
+            yvals.add(new BarEntry(i,(int) value));
+        }
+        BarDataSet set=new BarDataSet(yvals,"Data Set");
+        set.setColors(ColorTemplate.MATERIAL_COLORS);
+        set.setDrawValues(true);
 
+
+        BarData data=new BarData(set);
+        mchart.setData(data);
+        mchart.invalidate();
+        mchart.animateY(500);
+    }
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
