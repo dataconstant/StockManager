@@ -159,6 +159,7 @@ public class mainscreen extends AppCompatActivity {
     }
     public void analytics(){
         Intent intent = new Intent(getBaseContext(),analytics.class);
+        intent.putExtra("stocklist",stocklist);
         startActivity(intent);
     }
     public void livefeed(){
