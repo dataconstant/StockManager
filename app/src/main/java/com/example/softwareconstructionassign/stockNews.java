@@ -54,7 +54,8 @@ public class stockNews extends AppCompatActivity {
         //fill the dropdown list
         fillDropdownList(selectStock,stockList);
 
-        //sending request to stock news api
+        //fill the activity page
+        //getStocksNews();
         RequestQueue queue = Volley.newRequestQueue(this);
         String url ="https://stocknewsapi.com/api/v1?tickers=MSFT&items=30&fallback=true&token=kfpcjr3gnmsrjof4ppekyudomxwoc8eickvsgkgn";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -89,12 +90,21 @@ public class stockNews extends AppCompatActivity {
             }
         });
 */
+
+
     }
 
+
+    public void getStocksNews(String stock){
+
+    }
+    /****
+     * fill dropdown list
+     * @param selectStock
+     * @param stockList
+     */
     public void fillDropdownList(Spinner selectStock,ArrayList stockList){
-        System.out.println("hr");
         if(stockList != null){
-            System.out.println("hrllo");
             final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(),
                     android.R.layout.simple_list_item_1,stockList);
             selectStock.setAdapter(adapter);
