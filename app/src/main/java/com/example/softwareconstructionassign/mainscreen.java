@@ -166,7 +166,7 @@ public class mainscreen extends AppCompatActivity {
                 stocklist = "";
 
                 for(String s : list){
-                    
+
                     if(list.size()>=1){
                         stocklist = stocklist +";"+ s;
                     }
