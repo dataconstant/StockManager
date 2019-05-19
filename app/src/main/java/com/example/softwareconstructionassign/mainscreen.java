@@ -160,7 +160,6 @@ public class mainscreen extends AppCompatActivity {
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                // TODO: Handle error
                             }
                         });
                 queue.add(jsonObjectRequest);
