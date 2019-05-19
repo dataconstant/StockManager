@@ -28,12 +28,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 
 public class mainscreen extends AppCompatActivity {
 
     DatabaseReference dblogin;
     String stocklist = "";
     String email;
+    ArrayList<String> list = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +65,11 @@ public class mainscreen extends AppCompatActivity {
                     eid.setstocks(ds.child("stocks").getValue().toString());
                     if(email.equals(eid.email)) {
                         stocklist = eid.getstocks();
+                        String[] separated= stocklist.split(";");
+                        for(int i=0;i<separated.length;i++){
+                            list.add(separated[i]);
+                        }
+                        System.out.println("List - "+list);
                     }
                 }
             }
@@ -69,6 +77,8 @@ public class mainscreen extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+
+
 
         buttonsearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,7 +96,7 @@ public class mainscreen extends AppCompatActivity {
                                     if(stocklist!="") {
                                         stocklist = stocklist + ";" + newstock;
                                     }
-                                    else {
+                                    else if (stocklist.equals("")){
                                         stocklist = newstock;
                                     }
                                     dblogin.addValueEventListener(new ValueEventListener() {
@@ -161,7 +171,7 @@ public class mainscreen extends AppCompatActivity {
     }
     public void analytics(){
         Intent intent = new Intent(getBaseContext(),analytics.class);
-        intent.putExtra("stocklist",stocklist);
+        intent.putExtra("stocklist",list);
         intent.putExtra("email",email);
         startActivity(intent);
     }
