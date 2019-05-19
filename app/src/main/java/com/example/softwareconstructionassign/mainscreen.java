@@ -66,7 +66,7 @@ public class mainscreen extends AppCompatActivity {
                     if(email.equals(eid.email)) {
                         stocklist = eid.getstocks();
                         String[] separated= stocklist.split(";");
-                        for(int i=0;i<separated.length;i++){
+                        for(int i=1;i<separated.length;i++){
                             list.add(separated[i]);
                         }
                         System.out.println("List - "+list);
