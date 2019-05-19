@@ -42,6 +42,7 @@ public class mainscreen extends AppCompatActivity {
     ArrayList<String> list = new ArrayList<>();
     ArrayAdapter<String> adapter;
     String deletedlist;
+    boolean present;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,10 +109,20 @@ public class mainscreen extends AppCompatActivity {
                                     JSONArray ts = response.getJSONArray("bestMatches");
                                     JSONObject result = ts.getJSONObject(0);
                                     final String newstock = result.getString("1. symbol");
-                                    if (stocklist != ";") {
-                                        stocklist = stocklist + ";" + newstock;
-                                    } else {
-                                        stocklist = newstock;
+                                    present = false;
+
+                                    for(String s:list){
+                                        if(newstock.equals(s)){
+                                            present=true;
+                                        }
+                                    }
+
+                                    if(present==false) {
+                                        if (stocklist != ";") {
+                                            stocklist = stocklist + ";" + newstock;
+                                        } else {
+                                            stocklist = newstock;
+                                        }
                                     }
 
 
@@ -127,9 +138,12 @@ public class mainscreen extends AppCompatActivity {
                                                 eid = new emailclass(ds.getValue());
                                                 eid.setEmail(ds.child("email").getValue().toString());
                                                 eid.setstocks(ds.child("stocks").getValue().toString());
-                                                if (email.equals(eid.email)) {
+                                                if (email.equals(eid.email) && present==false) {
                                                     ds.getRef().child("stocks").setValue(stocklist);
                                                     Toast.makeText(getApplicationContext(), "Added " + newstock + " to your portfolio", Toast.LENGTH_LONG).show();
+                                                }
+                                                else if(present==true){
+                                                    Toast.makeText(getApplicationContext(), "The stock is already added", Toast.LENGTH_LONG).show();
                                                 }
                                             }
                                         }
