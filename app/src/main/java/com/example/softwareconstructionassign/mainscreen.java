@@ -41,9 +41,7 @@ public class mainscreen extends AppCompatActivity {
     String email;
     ArrayList<String> list = new ArrayList<>();
     ArrayAdapter<String> adapter;
-    String removedstocklist = " ;";
-    String removed;
-    Boolean deleteflag = false;
+    String deletedlist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +58,7 @@ public class mainscreen extends AppCompatActivity {
         final ListView listview = (ListView) findViewById(R.id.listview);
         final TextView deleteText = findViewById(R.id.deleteText);
         final Spinner selectStock = findViewById(R.id.selectStock);
+        final Button deleteButton = findViewById(R.id.deleteButton);
 
 
 
@@ -109,12 +108,13 @@ public class mainscreen extends AppCompatActivity {
                                     JSONArray ts = response.getJSONArray("bestMatches");
                                     JSONObject result = ts.getJSONObject(0);
                                     final String newstock = result.getString("1. symbol");
-                                    if(stocklist!="") {
+                                    if(stocklist!=";") {
                                         stocklist = stocklist + ";" + newstock;
-                                    }
-                                    else if (stocklist.equals("")){
+                                    }else{
                                         stocklist = newstock;
                                     }
+
+
                                     dblogin.addValueEventListener(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -147,6 +147,63 @@ public class mainscreen extends AppCompatActivity {
                             }
                         });
                 queue.add(jsonObjectRequest);
+            }
+        });
+
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String selected = selectStock.getSelectedItem().toString();
+                int i=0;
+                for(String s:list){
+                    i++;
+                    if(s.equals(selected)){
+                        break;
+                    }
+                }
+                list.remove(i-1);
+                System.out.println(list.size());
+                stocklist = "";
+
+                for(String s : list){
+                    
+                    if(list.size()>=1){
+                        stocklist = stocklist +";"+ s;
+                    }
+                    else if (list.size()==0){
+                        stocklist = "";
+                    }
+
+                }
+                System.out.println(stocklist);
+
+                dblogin.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        showData(dataSnapshot);
+                    }
+
+                    private void showData(DataSnapshot dataSnapshot) {
+                        emailclass eid = null;
+                        for (DataSnapshot ds : dataSnapshot.getChildren()){
+                            eid = new emailclass(ds.getValue());
+                            eid.setEmail(ds.child("email").getValue().toString());
+                            eid.setstocks(ds.child("stocks").getValue().toString());
+                            if(email.equals(eid.email)) {
+                                if(list.size()==0)
+                                    ds.getRef().child("stocks").setValue("");
+                                else
+                                ds.getRef().child("stocks").setValue(stocklist);
+                            }
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
+                });
+
+                listview.setAdapter(adapter);
+                selectStock.setAdapter(adapter);
 
             }
         });
