@@ -58,8 +58,6 @@ public class analytics extends AppCompatActivity {
                                 Iterator<String> iter = ts.keys();
                                 String key = (iter.next());
                                 JSONObject result = ts.getJSONObject(key);
-
-                                //JSONObject result = ts.getJSONObject(0);
                                 System.out.println("Result" + ts);
                                 int open = result.getInt("1. open");
                                 int high = result.getInt("2. high");
