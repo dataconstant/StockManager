@@ -41,9 +41,9 @@ public class mainscreen extends AppCompatActivity {
     String stocklist = "";
     String email;
     ArrayList<String> list = new ArrayList<>();
-    ArrayAdapter<String> adapter;
     String deletedlist;
     boolean present;
+    ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,10 +82,6 @@ public class mainscreen extends AppCompatActivity {
                         for (int i = 1; i < separated.length; i++) {
                             list.add(separated[i]);
                         }
-
-                        adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, list);
-                        listview.setAdapter(adapter);
-                        selectStock.setAdapter(adapter);
 
                     }
                 }

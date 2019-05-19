@@ -18,10 +18,16 @@
         android:textStyle="bold"
         android:layout_gravity="center"
         android:text="Stock Analytics"/>
-    <com.github.mikephil.charting.charts.BarChart
+
+    <Spinner
+        android:id="@+id/sp"
         android:layout_width="match_parent"
-        android:layout_height="450dp"
-        android:id="@+id/barchart"></com.github.mikephil.charting.charts.BarChart>
+        android:layout_height="wrap_content" />
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/barchart"
+        android:layout_width="match_parent"
+        android:layout_height="450dp"></com.github.mikephil.charting.charts.BarChart>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="30dp"
