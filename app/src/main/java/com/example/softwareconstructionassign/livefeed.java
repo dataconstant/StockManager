@@ -2,6 +2,8 @@ package com.example.softwareconstructionassign;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -40,7 +43,7 @@ public class livefeed extends AppCompatActivity {
 
         email = (String) getIntent().getSerializableExtra("email");
 
-        Spinner spinner = (Spinner) findViewById(R.id.planets_spinner);
+        Spinner spinner = (Spinner) findViewById(R.id.stocksDropdown);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.stocks_array, android.R.layout.simple_spinner_item);
@@ -97,6 +100,26 @@ public class livefeed extends AppCompatActivity {
             }
         );
         queue.add(jsonObjectRequest);
+
+
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_recents:
+                        Toast.makeText(livefeed.this, "Recents", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(livefeed.this,mainscreen.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.action_favorites:
+                        Toast.makeText(livefeed.this, "Favorites", Toast.LENGTH_SHORT).show();
+                        break;
+
+                }
+                return true;
+            }
+        });
     }
 
 

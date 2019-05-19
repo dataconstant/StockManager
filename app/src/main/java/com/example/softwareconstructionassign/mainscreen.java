@@ -3,15 +3,16 @@ package com.example.softwareconstructionassign;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,9 +42,8 @@ public class mainscreen extends AppCompatActivity {
     String email;
     ArrayList<String> list = new ArrayList<>();
     ArrayAdapter<String> adapter;
-    String removedstocklist = " ;";
-    String removed;
-    Boolean deleteflag = false;
+    String deletedlist;
+    boolean present;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +58,10 @@ public class mainscreen extends AppCompatActivity {
         final Button buttonsearch = (Button) findViewById(R.id.searchButton);
         final RequestQueue queue = Volley.newRequestQueue(this);
         final ListView listview = (ListView) findViewById(R.id.listview);
+        final TextView deleteText = findViewById(R.id.deleteText);
+        final Spinner selectStock = findViewById(R.id.selectStock);
+        final Button deleteButton = findViewById(R.id.deleteButton);
+
 
         dblogin.addValueEventListener(new ValueEventListener() {
             @Override
@@ -67,24 +71,26 @@ public class mainscreen extends AppCompatActivity {
 
             private void showData(DataSnapshot dataSnapshot) {
                 emailclass eid = null;
-                for (DataSnapshot ds : dataSnapshot.getChildren()){
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     eid = new emailclass(ds.getValue());
                     eid.setEmail(ds.child("email").getValue().toString());
                     eid.setstocks(ds.child("stocks").getValue().toString());
-                    if(email.equals(eid.email)) {
+                    if (email.equals(eid.email)) {
                         stocklist = eid.getstocks();
-                        String[] separated= stocklist.split(";");
+                        String[] separated = stocklist.split(";");
 
-                        for(int i=1;i<separated.length;i++){
+                        for (int i = 1; i < separated.length; i++) {
                             list.add(separated[i]);
                         }
 
                         adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, list);
                         listview.setAdapter(adapter);
+                        selectStock.setAdapter(adapter);
 
                     }
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
@@ -95,7 +101,7 @@ public class mainscreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String term = search.getText().toString();
-                String url = "https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords="+term+"&apikey=GF4EX3XKAFSY29GH";
+                String url = "https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=" + term + "&apikey=GF4EX3XKAFSY29GH";
                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                         (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                             @Override
@@ -104,29 +110,45 @@ public class mainscreen extends AppCompatActivity {
                                     JSONArray ts = response.getJSONArray("bestMatches");
                                     JSONObject result = ts.getJSONObject(0);
                                     final String newstock = result.getString("1. symbol");
-                                    if(stocklist!="") {
-                                        stocklist = stocklist + ";" + newstock;
+                                    present = false;
+
+                                    for(String s:list){
+                                        if(newstock.equals(s)){
+                                            present=true;
+                                        }
                                     }
-                                    else if (stocklist.equals("")){
-                                        stocklist = newstock;
+
+                                    if(present==false) {
+                                        if (stocklist != ";") {
+                                            stocklist = stocklist + ";" + newstock;
+                                        } else {
+                                            stocklist = newstock;
+                                        }
                                     }
+
+
                                     dblogin.addValueEventListener(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                             showData(dataSnapshot);
                                         }
+
                                         private void showData(DataSnapshot dataSnapshot) {
                                             emailclass eid = null;
-                                            for (DataSnapshot ds : dataSnapshot.getChildren()){
+                                            for (DataSnapshot ds : dataSnapshot.getChildren()) {
                                                 eid = new emailclass(ds.getValue());
                                                 eid.setEmail(ds.child("email").getValue().toString());
                                                 eid.setstocks(ds.child("stocks").getValue().toString());
-                                                if(email.equals(eid.email)) {
+                                                if (email.equals(eid.email) && present==false) {
                                                     ds.getRef().child("stocks").setValue(stocklist);
-                                                    Toast.makeText(getApplicationContext(), "Added "+ newstock+" to your portfolio", Toast.LENGTH_LONG).show();
+                                                    Toast.makeText(getApplicationContext(), "Added " + newstock + " to your portfolio", Toast.LENGTH_LONG).show();
+                                                }
+                                                else if(present==true){
+                                                    Toast.makeText(getApplicationContext(), "The stock is already added", Toast.LENGTH_LONG).show();
                                                 }
                                             }
                                         }
+
                                         @Override
                                         public void onCancelled(@NonNull DatabaseError databaseError) {
                                         }
@@ -138,14 +160,92 @@ public class mainscreen extends AppCompatActivity {
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                // TODO: Handle error
                             }
                         });
                 queue.add(jsonObjectRequest);
+            }
+        });
+
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String selected = selectStock.getSelectedItem().toString();
+                int i = 0;
+                for (String s : list) {
+                    i++;
+                    if (s.equals(selected)) {
+                        break;
+                    }
+                }
+                list.remove(i - 1);
+                System.out.println(list.size());
+                stocklist = "";
+
+                for (String s : list) {
+
+                    if (list.size() >= 1) {
+                        stocklist = stocklist + ";" + s;
+                    } else if (list.size() == 0) {
+                        stocklist = "";
+                    }
+
+                }
+                System.out.println(stocklist);
+
+                dblogin.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        showData(dataSnapshot);
+                    }
+
+                    private void showData(DataSnapshot dataSnapshot) {
+                        emailclass eid = null;
+                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                            eid = new emailclass(ds.getValue());
+                            eid.setEmail(ds.child("email").getValue().toString());
+                            eid.setstocks(ds.child("stocks").getValue().toString());
+                            if (email.equals(eid.email)) {
+                                if (list.size() == 0)
+                                    ds.getRef().child("stocks").setValue("");
+                                else
+                                    ds.getRef().child("stocks").setValue(stocklist);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
+                });
+
+                listview.setAdapter(adapter);
+                selectStock.setAdapter(adapter);
 
             }
         });
+
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_recents:
+                        Toast.makeText(mainscreen.this, "Recents", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(mainscreen.this,stockNews.class);
+                        intent.putExtra("stocklist",list);
+                        startActivity(intent);
+                        break;
+                    case R.id.action_favorites:
+                        Toast.makeText(mainscreen.this, "Favorites", Toast.LENGTH_SHORT).show();
+                        break;
+
+                }
+                return true;
+            }
+        });
+
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
