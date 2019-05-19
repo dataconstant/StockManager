@@ -8,6 +8,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -15,11 +21,18 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.DataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class analytics extends AppCompatActivity {
     private BarChart mchart;
     String email;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,30 +40,63 @@ public class analytics extends AppCompatActivity {
         setContentView(R.layout.activity_analytics);
         Intent intent = getIntent();
         email = (String) getIntent().getSerializableExtra("email");
+        final RequestQueue queue = Volley.newRequestQueue(this);
+
        // TextView textView = findViewById(R.id.textView1);
         //textView.setText("Kruthi");
         mchart =(BarChart) findViewById(R.id.barchart);
         mchart.getDescription().setEnabled(false);
-        setData(10);
         mchart.setFitBars(true);
-    }
-    private void setData(int count){
-        ArrayList<BarEntry> yvals = new ArrayList<>();
-        for(int i=0;i<count;i++)
-        {
-            float value=(float)(Math.random()*100);
-            yvals.add(new BarEntry(i,(int) value));
-        }
-        BarDataSet set=new BarDataSet(yvals,"Data Set");
-        set.setColors(ColorTemplate.MATERIAL_COLORS);
-        set.setDrawValues(true);
+
+       final ArrayList stock = getIntent().getStringArrayListExtra("stocklist");
+        System.out.println("stocklist "+stock);
+        String url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol="+stock.get(0)+"&interval=5min&apikey=GF4EX3XKAFSY29GH";
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONObject ts = response.getJSONObject("Time Series (5min)");
+                            Iterator<String> iter = ts.keys();
+                            String key = (iter.next());
+                            JSONObject result = ts.getJSONObject(key);
+
+                            //JSONObject result = ts.getJSONObject(0);
+                            System.out.println("Result"+ts);
+                            int open = result.getInt("1. open");
+                            int high = result.getInt("2. high");
+                            int low = result.getInt("3. low");
+                            int close = result.getInt("4. close");
+                            System.out.println(" "+open+" "+high+" "+close+" "+low);
+                            ArrayList<BarEntry> yvals = new ArrayList<>();
+                            yvals.add(new BarEntry(0, (int) open));
+                            yvals.add(new BarEntry(1, (int) high));
+                            yvals.add(new BarEntry(2, (int) low));
+                            yvals.add(new BarEntry(3, (int) close));
+                            BarDataSet set = new BarDataSet(yvals, " " + stock.get(0));
+                            set.setColors(ColorTemplate.MATERIAL_COLORS);
+                            set.setDrawValues(true);
+                            BarData data = new BarData(set);
+                            mchart.setData(data);
+                            mchart.invalidate();
+                            mchart.animateY(500);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                } ,new Response.ErrorListener() {
+           @Override
+           public void onErrorResponse(VolleyError error) {
+               // TODO: Handle error
+           }
+       });
+        queue.add(jsonObjectRequest);
+       }
 
 
-        BarData data=new BarData(set);
-        mchart.setData(data);
-        mchart.invalidate();
-        mchart.animateY(500);
-    }
+
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
