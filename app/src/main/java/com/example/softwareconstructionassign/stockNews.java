@@ -1,3 +1,7 @@
+/************
+ * Project: Software Construction
+ * Author: Mansoor Ali Halari
+ */
 package com.example.softwareconstructionassign;
 
 import android.content.Intent;
@@ -10,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -22,22 +27,16 @@ import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.jjoe64.graphview.series.DataPoint;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class stockNews extends AppCompatActivity {
 
-    JSONObject stockData;
-    public ArrayList<String> arrList = new ArrayList<>();
-    public int[] arrListSentiment = new int[3];
+    private ArrayList<String> arrList = new ArrayList<>();
+    private int[] arrListSentiment = new int[3];
     private BarChart mchart;
 
     @Override
@@ -46,8 +45,16 @@ public class stockNews extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stocknews);
 
-        final ListView listView = (ListView) findViewById(R.id.liststockNews);
+        final Intent intent = getIntent();
+        final ListView listView = findViewById(R.id.liststockNews);
+        final BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        final ArrayList stockList = intent.getStringArrayListExtra("stocklist");
+        final Spinner selectStock = findViewById(R.id.stocksDropdown);
 
+        //fill the dropdown list
+        fillDropdownList(selectStock,stockList);
+
+        //sending request to stock news api
         RequestQueue queue = Volley.newRequestQueue(this);
         String url ="https://stocknewsapi.com/api/v1?tickers=MSFT&items=30&fallback=true&token=kfpcjr3gnmsrjof4ppekyudomxwoc8eickvsgkgn";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -63,16 +70,15 @@ public class stockNews extends AppCompatActivity {
         );
         queue.add(jsonObjectRequest);
 
-
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+/*
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_recents:
                         Toast.makeText(stockNews.this, "Recents", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(stockNews.this,mainscreen.class);
-                        startActivity(intent);
+                        //Intent intent = new Intent(stockNews.this,mainscreen.class);
+                        //startActivity(intent);
                         break;
                     case R.id.action_favorites:
                         Toast.makeText(stockNews.this, "Favorites", Toast.LENGTH_SHORT).show();
@@ -82,9 +88,24 @@ public class stockNews extends AppCompatActivity {
                 return true;
             }
         });
-
+*/
     }
 
+    public void fillDropdownList(Spinner selectStock,ArrayList stockList){
+        System.out.println("hr");
+        if(stockList != null){
+            System.out.println("hrllo");
+            final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(),
+                    android.R.layout.simple_list_item_1,stockList);
+            selectStock.setAdapter(adapter);
+        }
+    }
+
+    /*******
+     * Function to fill the list with news items
+     * @param listView
+     * @param response
+     */
     public void fillList(ListView listView,JSONObject response){
         try {
             JSONArray value = response.getJSONArray("data");
@@ -107,13 +128,17 @@ public class stockNews extends AppCompatActivity {
 
     }
 
+    /*****
+     * function to fill the chart displaying the sentiments about the stocks based on news
+     * @param arrListSentiment
+     */
     public void fillChart(int[] arrListSentiment){
 
         String[] mBarLabel = new String[3];
 
         mBarLabel[0] = "Positive";
-        mBarLabel[0] = "Positive";
-        mBarLabel[0] = "Positive";
+        mBarLabel[1] = "Positive";
+        mBarLabel[2] = "Positive";
 
         mchart =(BarChart) findViewById(R.id.barchart);
         mchart.setDrawBarShadow(false);
@@ -124,8 +149,6 @@ public class stockNews extends AppCompatActivity {
         mchart.invalidate();
         mchart.animateY(500);
         mchart.setFitBars(true);
-
-        //mchart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(mBarLabel));
 
         ArrayList<BarEntry> yvals = new ArrayList<>();
         for(int i=0;i<arrListSentiment.length;i++)

@@ -7,7 +7,7 @@
     tools:context=".livefeed">
 
     <Spinner
-        android:id="@+id/planets_spinner"
+        android:id="@+id/stocksDropdown"
         android:layout_width="338dp"
         android:layout_height="37dp"
         android:layout_marginStart="19dp"
@@ -16,7 +16,6 @@
         android:layout_marginEnd="19dp"
         android:layout_marginRight="19dp"
         android:layout_marginBottom="9dp"
-        android:background="@drawable/spinner_border"
         app:layout_constraintBottom_toTopOf="@+id/barchart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +47,7 @@
         app:layout_constraintBottom_toTopOf="@+id/liststockNews"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/planets_spinner"></com.github.mikephil.charting.charts.BarChart>
+        app:layout_constraintTop_toBottomOf="@+id/stocksDropdown"></com.github.mikephil.charting.charts.BarChart>
 
     <android.support.design.widget.BottomNavigationView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"

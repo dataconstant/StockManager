@@ -160,6 +160,7 @@ public class mainscreen extends AppCompatActivity {
                     case R.id.action_recents:
                         Toast.makeText(mainscreen.this, "Recents", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(mainscreen.this,stockNews.class);
+                        intent.putExtra("stocklist",list);
                         startActivity(intent);
                         break;
                     case R.id.action_favorites:

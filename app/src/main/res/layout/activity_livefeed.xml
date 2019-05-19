@@ -96,12 +96,11 @@
         android:text="Stocks:"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintBottom_toTopOf="@+id/textView3"
-        app:layout_constraintEnd_toEndOf="@+id/planets_spinner"
+        app:layout_constraintEnd_toEndOf="@+id/stocksDropdown"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Spinner
-        android:id="@+id/planets_spinner"
         android:layout_width="235dp"
         android:layout_height="22dp"
         android:layout_marginStart="8dp"
