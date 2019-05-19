@@ -2,6 +2,8 @@ package com.example.softwareconstructionassign;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -60,6 +62,27 @@ public class stockNews extends AppCompatActivity {
         }
         );
         queue.add(jsonObjectRequest);
+
+
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_recents:
+                        Toast.makeText(stockNews.this, "Recents", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(stockNews.this,mainscreen.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.action_favorites:
+                        Toast.makeText(stockNews.this, "Favorites", Toast.LENGTH_SHORT).show();
+                        break;
+
+                }
+                return true;
+            }
+        });
+
     }
 
     public void fillList(ListView listView,JSONObject response){
@@ -92,7 +115,6 @@ public class stockNews extends AppCompatActivity {
         mBarLabel[0] = "Positive";
         mBarLabel[0] = "Positive";
 
-
         mchart =(BarChart) findViewById(R.id.barchart);
         mchart.setDrawBarShadow(false);
         mchart.setDrawValueAboveBar(false);
@@ -120,24 +142,6 @@ public class stockNews extends AppCompatActivity {
         BarData data=new BarData(set);
         mchart.setData(data);
 
-    }
-
-    private void setData(int count){
-        ArrayList<BarEntry> yvals = new ArrayList<>();
-        for(int i=0;i<count;i++)
-        {
-            float value=(float)(Math.random()*100);
-            yvals.add(new BarEntry(i,(int) value));
-        }
-        BarDataSet set=new BarDataSet(yvals,"Data Set");
-        set.setColors(ColorTemplate.MATERIAL_COLORS);
-        set.setDrawValues(true);
-
-
-        BarData data=new BarData(set);
-        mchart.setData(data);
-        mchart.invalidate();
-        mchart.animateY(500);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
