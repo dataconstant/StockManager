@@ -37,11 +37,16 @@ public class stockNews extends AppCompatActivity {
         final ListView listView = (ListView) findViewById(R.id.liststockNews);
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="https://stocknewsapi.com/api/v1?tickers=MSFT&items=30&fallback=true&token=isto2i4cq7h369pzieouu5wxaw3n8bbjdgorkvaq";
+        String url ="https://stocknewsapi.com/api/v1?tickers=MSFT&items=30&fallback=true&token=kfpcjr3gnmsrjof4ppekyudomxwoc8eickvsgkgn";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+                    arrList.add("hi");
+                    final ArrayAdapter<String> adapter = new ArrayAdapter<String>(stockNews.this,
+                            android.R.layout.simple_list_item_1, android.R.id.text1, arrList);
+                    listView.setAdapter(adapter);
+
                     fillList(listView,response.getJSONObject("data"));
                     }
                 catch (JSONException e) {
@@ -73,7 +78,7 @@ public class stockNews extends AppCompatActivity {
             // add code if needed
         }
 
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(stockNews.this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, arrList);
         listView.setAdapter(adapter);
     }
