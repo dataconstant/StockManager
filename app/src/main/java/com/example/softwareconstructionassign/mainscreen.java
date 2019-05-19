@@ -61,7 +61,6 @@ public class mainscreen extends AppCompatActivity {
         final Button deleteButton = findViewById(R.id.deleteButton);
 
 
-
         dblogin.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -70,15 +69,15 @@ public class mainscreen extends AppCompatActivity {
 
             private void showData(DataSnapshot dataSnapshot) {
                 emailclass eid = null;
-                for (DataSnapshot ds : dataSnapshot.getChildren()){
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     eid = new emailclass(ds.getValue());
                     eid.setEmail(ds.child("email").getValue().toString());
                     eid.setstocks(ds.child("stocks").getValue().toString());
-                    if(email.equals(eid.email)) {
+                    if (email.equals(eid.email)) {
                         stocklist = eid.getstocks();
-                        String[] separated= stocklist.split(";");
+                        String[] separated = stocklist.split(";");
 
-                        for(int i=1;i<separated.length;i++){
+                        for (int i = 1; i < separated.length; i++) {
                             list.add(separated[i]);
                         }
 
@@ -89,6 +88,7 @@ public class mainscreen extends AppCompatActivity {
                     }
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
@@ -99,7 +99,7 @@ public class mainscreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String term = search.getText().toString();
-                String url = "https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords="+term+"&apikey=GF4EX3XKAFSY29GH";
+                String url = "https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=" + term + "&apikey=GF4EX3XKAFSY29GH";
                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                         (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                             @Override
@@ -108,9 +108,9 @@ public class mainscreen extends AppCompatActivity {
                                     JSONArray ts = response.getJSONArray("bestMatches");
                                     JSONObject result = ts.getJSONObject(0);
                                     final String newstock = result.getString("1. symbol");
-                                    if(stocklist!=";") {
+                                    if (stocklist != ";") {
                                         stocklist = stocklist + ";" + newstock;
-                                    }else{
+                                    } else {
                                         stocklist = newstock;
                                     }
 
@@ -120,18 +120,20 @@ public class mainscreen extends AppCompatActivity {
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                             showData(dataSnapshot);
                                         }
+
                                         private void showData(DataSnapshot dataSnapshot) {
                                             emailclass eid = null;
-                                            for (DataSnapshot ds : dataSnapshot.getChildren()){
+                                            for (DataSnapshot ds : dataSnapshot.getChildren()) {
                                                 eid = new emailclass(ds.getValue());
                                                 eid.setEmail(ds.child("email").getValue().toString());
                                                 eid.setstocks(ds.child("stocks").getValue().toString());
-                                                if(email.equals(eid.email)) {
+                                                if (email.equals(eid.email)) {
                                                     ds.getRef().child("stocks").setValue(stocklist);
-                                                    Toast.makeText(getApplicationContext(), "Added "+ newstock+" to your portfolio", Toast.LENGTH_LONG).show();
+                                                    Toast.makeText(getApplicationContext(), "Added " + newstock + " to your portfolio", Toast.LENGTH_LONG).show();
                                                 }
                                             }
                                         }
+
                                         @Override
                                         public void onCancelled(@NonNull DatabaseError databaseError) {
                                         }
@@ -154,23 +156,22 @@ public class mainscreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String selected = selectStock.getSelectedItem().toString();
-                int i=0;
-                for(String s:list){
+                int i = 0;
+                for (String s : list) {
                     i++;
-                    if(s.equals(selected)){
+                    if (s.equals(selected)) {
                         break;
                     }
                 }
-                list.remove(i-1);
+                list.remove(i - 1);
                 System.out.println(list.size());
                 stocklist = "";
 
-                for(String s : list){
+                for (String s : list) {
 
-                    if(list.size()>=1){
-                        stocklist = stocklist +";"+ s;
-                    }
-                    else if (list.size()==0){
+                    if (list.size() >= 1) {
+                        stocklist = stocklist + ";" + s;
+                    } else if (list.size() == 0) {
                         stocklist = "";
                     }
 
@@ -185,18 +186,19 @@ public class mainscreen extends AppCompatActivity {
 
                     private void showData(DataSnapshot dataSnapshot) {
                         emailclass eid = null;
-                        for (DataSnapshot ds : dataSnapshot.getChildren()){
+                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
                             eid = new emailclass(ds.getValue());
                             eid.setEmail(ds.child("email").getValue().toString());
                             eid.setstocks(ds.child("stocks").getValue().toString());
-                            if(email.equals(eid.email)) {
-                                if(list.size()==0)
+                            if (email.equals(eid.email)) {
+                                if (list.size() == 0)
                                     ds.getRef().child("stocks").setValue("");
                                 else
-                                ds.getRef().child("stocks").setValue(stocklist);
+                                    ds.getRef().child("stocks").setValue(stocklist);
                             }
                         }
                     }
+
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                     }
@@ -208,6 +210,7 @@ public class mainscreen extends AppCompatActivity {
             }
         });
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
