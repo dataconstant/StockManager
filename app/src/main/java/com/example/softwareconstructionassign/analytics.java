@@ -19,12 +19,14 @@ import java.util.ArrayList;
 
 public class analytics extends AppCompatActivity {
     private BarChart mchart;
+    String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_analytics);
         Intent intent = getIntent();
+        email = (String) getIntent().getSerializableExtra("email");
        // TextView textView = findViewById(R.id.textView1);
         //textView.setText("Kruthi");
         mchart =(BarChart) findViewById(R.id.barchart);
@@ -76,14 +78,17 @@ public class analytics extends AppCompatActivity {
 
     public void portfolio(){
         Intent intent = new Intent(getBaseContext(),mainscreen.class);
+        intent.putExtra("email",email);
         startActivity(intent);
     }
     public void analytics(){
         Intent intent = new Intent(getBaseContext(),analytics.class);
+        intent.putExtra("email",email);
         startActivity(intent);
     }
     public void livefeed(){
         Intent intent = new Intent(getBaseContext(),livefeed.class);
+        intent.putExtra("email",email);
         startActivity(intent);
     }
 

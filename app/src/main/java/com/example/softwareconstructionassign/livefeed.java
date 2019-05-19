@@ -28,6 +28,8 @@ import java.util.Iterator;
 
 public class livefeed extends AppCompatActivity {
 
+    String email;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,8 @@ public class livefeed extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_livefeed);
         Intent intent = getIntent();
+
+        email = (String) getIntent().getSerializableExtra("email");
 
         Spinner spinner = (Spinner) findViewById(R.id.planets_spinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -123,14 +127,17 @@ public class livefeed extends AppCompatActivity {
 
     public void portfolio(){
         Intent intent = new Intent(getBaseContext(),mainscreen.class);
+        intent.putExtra("email",email);
         startActivity(intent);
     }
     public void analytics(){
         Intent intent = new Intent(getBaseContext(),analytics.class);
+        intent.putExtra("email",email);
         startActivity(intent);
     }
     public void livefeed(){
         Intent intent = new Intent(getBaseContext(),livefeed.class);
+        intent.putExtra("email",email);
         startActivity(intent);
     }
 
