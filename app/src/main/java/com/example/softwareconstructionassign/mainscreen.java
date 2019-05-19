@@ -34,6 +34,7 @@ public class mainscreen extends AppCompatActivity {
 
     DatabaseReference dblogin;
     String stocklist = "";
+    String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +43,7 @@ public class mainscreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
 
-        final String email = (String) getIntent().getSerializableExtra("email");
+        email = (String) getIntent().getSerializableExtra("email");
 
         final TextView search = findViewById(R.id.editText);
         final Button buttonsearch = (Button) findViewById(R.id.searchButton);
@@ -174,15 +175,18 @@ public class mainscreen extends AppCompatActivity {
     public void portfolio(){
         Intent intent = new Intent(getBaseContext(),mainscreen.class);
         intent.putExtra("stocklist",stocklist);
+        intent.putExtra("email",email);
         startActivity(intent);
     }
     public void analytics(){
         Intent intent = new Intent(getBaseContext(),analytics.class);
         intent.putExtra("stocklist",stocklist);
+        intent.putExtra("email",email);
         startActivity(intent);
     }
     public void livefeed(){
         Intent intent = new Intent(getBaseContext(),livefeed.class);
+        intent.putExtra("email",email);
         startActivity(intent);
     }
 }
