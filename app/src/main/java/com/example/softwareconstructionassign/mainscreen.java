@@ -8,10 +8,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,6 +58,10 @@ public class mainscreen extends AppCompatActivity {
         final Button buttonsearch = (Button) findViewById(R.id.searchButton);
         final RequestQueue queue = Volley.newRequestQueue(this);
         final ListView listview = (ListView) findViewById(R.id.listview);
+        final TextView deleteText = findViewById(R.id.deleteText);
+        final Spinner selectStock = findViewById(R.id.selectStock);
+
+
 
         dblogin.addValueEventListener(new ValueEventListener() {
             @Override
@@ -81,6 +85,7 @@ public class mainscreen extends AppCompatActivity {
 
                         adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, list);
                         listview.setAdapter(adapter);
+                        selectStock.setAdapter(adapter);
 
                     }
                 }
