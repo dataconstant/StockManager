@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -15,8 +16,15 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.jjoe64.graphview.series.DataPoint;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,6 +35,8 @@ public class stockNews extends AppCompatActivity {
 
     JSONObject stockData;
     public ArrayList<String> arrList = new ArrayList<>();
+    public int[] arrListSentiment = new int[3];
+    private BarChart mchart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,16 +51,8 @@ public class stockNews extends AppCompatActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                try {
-                    arrList.add("hi");
-                    final ArrayAdapter<String> adapter = new ArrayAdapter<String>(stockNews.this,
-                            android.R.layout.simple_list_item_1, android.R.id.text1, arrList);
-                    listView.setAdapter(adapter);
-
-                    fillList(listView,response.getJSONObject("data"));
-                    }
-                catch (JSONException e) {
-                }
+                fillList(listView,response);
+                fillChart(arrListSentiment);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -61,26 +63,81 @@ public class stockNews extends AppCompatActivity {
     }
 
     public void fillList(ListView listView,JSONObject response){
-        System.out.println("Hi");
         try {
-            JSONObject value = response.getJSONObject("data");
-            Iterator<String> iter = value.keys();
-            while (iter.hasNext()) {
-                String key = iter.next();
-                try {
-                    JSONObject value1 = value.getJSONObject(key);
-                    arrList.add(value1.getString("text"));
-                    } catch (JSONException e) {
-                    // add code if needed
+            JSONArray value = response.getJSONArray("data");
+            for (int i=0;  i<value.length();i++){
+                JSONObject result = value.getJSONObject(i);
+                arrList.add(result.getString("text"));
+                System.out.println(result.getString("sentiment"));
+                switch (result.getString("sentiment")){
+                    case "Positive": arrListSentiment[0] +=1; break;
+                    case "Neutral": arrListSentiment[1] +=1; break;
+                    case "Negative": arrListSentiment[2] +=1; break;
                 }
-            }
+                }
+            final ArrayAdapter<String> adapter = new ArrayAdapter<String>(stockNews.this,
+                    android.R.layout.simple_list_item_1, android.R.id.text1, arrList);
+            listView.setAdapter(adapter);
         } catch (JSONException e) {
             // add code if needed
         }
 
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(stockNews.this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, arrList);
-        listView.setAdapter(adapter);
+    }
+
+    public void fillChart(int[] arrListSentiment){
+
+        String[] mBarLabel = new String[3];
+
+        mBarLabel[0] = "Positive";
+        mBarLabel[0] = "Positive";
+        mBarLabel[0] = "Positive";
+
+
+        mchart =(BarChart) findViewById(R.id.barchart);
+        mchart.setDrawBarShadow(false);
+        mchart.setDrawValueAboveBar(false);
+        mchart.setPinchZoom(true);
+        mchart.getDescription().setEnabled(false);
+        mchart.setDrawGridBackground(false);
+        mchart.invalidate();
+        mchart.animateY(500);
+        mchart.setFitBars(true);
+
+        //mchart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(mBarLabel));
+
+        ArrayList<BarEntry> yvals = new ArrayList<>();
+        for(int i=0;i<arrListSentiment.length;i++)
+        {
+            int value = arrListSentiment[i];
+            System.out.println(arrListSentiment[i]);
+            yvals.add(new BarEntry(i,value));
+        }
+
+        BarDataSet set=new BarDataSet(yvals,"Sentiment chart of the news of");
+        set.setColors(ColorTemplate.MATERIAL_COLORS);
+        set.setDrawValues(true);
+
+        BarData data=new BarData(set);
+        mchart.setData(data);
+
+    }
+
+    private void setData(int count){
+        ArrayList<BarEntry> yvals = new ArrayList<>();
+        for(int i=0;i<count;i++)
+        {
+            float value=(float)(Math.random()*100);
+            yvals.add(new BarEntry(i,(int) value));
+        }
+        BarDataSet set=new BarDataSet(yvals,"Data Set");
+        set.setColors(ColorTemplate.MATERIAL_COLORS);
+        set.setDrawValues(true);
+
+
+        BarData data=new BarData(set);
+        mchart.setData(data);
+        mchart.invalidate();
+        mchart.animateY(500);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
