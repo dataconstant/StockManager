@@ -3,13 +3,15 @@ package com.example.softwareconstructionassign;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +40,10 @@ public class mainscreen extends AppCompatActivity {
     String stocklist = "";
     String email;
     ArrayList<String> list = new ArrayList<>();
+    ArrayAdapter<String> adapter;
+    String removedstocklist = " ;";
+    String removed;
+    Boolean deleteflag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +57,7 @@ public class mainscreen extends AppCompatActivity {
         final TextView search = findViewById(R.id.editText);
         final Button buttonsearch = (Button) findViewById(R.id.searchButton);
         final RequestQueue queue = Volley.newRequestQueue(this);
+        final ListView listview = (ListView) findViewById(R.id.listview);
 
         dblogin.addValueEventListener(new ValueEventListener() {
             @Override
@@ -67,10 +74,14 @@ public class mainscreen extends AppCompatActivity {
                     if(email.equals(eid.email)) {
                         stocklist = eid.getstocks();
                         String[] separated= stocklist.split(";");
+
                         for(int i=1;i<separated.length;i++){
                             list.add(separated[i]);
                         }
-                        System.out.println("List - "+list);
+
+                        adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, list);
+                        listview.setAdapter(adapter);
+
                     }
                 }
             }
@@ -78,7 +89,6 @@ public class mainscreen extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-
 
 
         buttonsearch.setOnClickListener(new View.OnClickListener() {
@@ -135,25 +145,6 @@ public class mainscreen extends AppCompatActivity {
 
             }
         });
-
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.action_recents:
-                        Toast.makeText(mainscreen.this, "Recents", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(mainscreen.this,stockNews.class);
-                        startActivity(intent);
-                        break;
-                    case R.id.action_favorites:
-                        Toast.makeText(mainscreen.this, "Favorites", Toast.LENGTH_SHORT).show();
-                        break;
-                }
-                return true;
-            }
-        });
-
     }
 
     @Override
@@ -184,7 +175,7 @@ public class mainscreen extends AppCompatActivity {
 
     public void portfolio(){
         Intent intent = new Intent(getBaseContext(),mainscreen.class);
-        intent.putExtra("stocklist",stocklist);
+        intent.putExtra("stocklist",list);
         intent.putExtra("email",email);
         startActivity(intent);
     }
