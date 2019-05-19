@@ -12,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -38,6 +40,9 @@ public class stockNews extends AppCompatActivity {
     private ArrayList<String> arrList = new ArrayList<>();
     private int[] arrListSentiment = new int[3];
     private BarChart mchart;
+    private String stockCode;
+    public JSONObject stockNewsData;
+    private ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,15 +59,19 @@ public class stockNews extends AppCompatActivity {
         //fill the dropdown list
         fillDropdownList(selectStock,stockList);
 
-        //fill the activity page
-        //getStocksNews();
+        //get the stock data
+        stockCode = stockList.get(0).toString();
+        //stockNewsData = getStocksNews(stockCode);
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="https://stocknewsapi.com/api/v1?tickers=MSFT&items=30&fallback=true&token=kfpcjr3gnmsrjof4ppekyudomxwoc8eickvsgkgn";
+        String url ="https://stocknewsapi.com/api/v1?tickers="+stockCode+"&items=30&fallback=true&token=kfpcjr3gnmsrjof4ppekyudomxwoc8eickvsgkgn";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                fillList(listView,response);
-                fillChart(arrListSentiment);
+                stockNewsData = response;
+                if (stockNewsData != null){
+                    fillList(listView,stockNewsData);
+                    fillChart(arrListSentiment);
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -71,6 +80,37 @@ public class stockNews extends AppCompatActivity {
         );
         queue.add(jsonObjectRequest);
 
+        //get spinner value
+        selectStock.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                stockCode = selectStock.getSelectedItem().toString();
+                RequestQueue queue = Volley.newRequestQueue(stockNews.this);
+                String url ="https://stocknewsapi.com/api/v1?tickers="+stockCode+"&items=30&fallback=true&token=kfpcjr3gnmsrjof4ppekyudomxwoc8eickvsgkgn";
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        stockNewsData = response;
+                        if (stockNewsData != null){
+                            adapter.clear();
+                            fillList(listView,stockNewsData);
+                            fillChart(arrListSentiment);
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {}
+                }
+                );
+                queue.add(jsonObjectRequest);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
 /*
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -90,14 +130,22 @@ public class stockNews extends AppCompatActivity {
             }
         });
 */
-
-
     }
 
-
-    public void getStocksNews(String stock){
-
+    public JSONObject getStocksNews(String stock){
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url ="https://stocknewsapi.com/api/v1?tickers="+stockCode+"&items=30&fallback=true&token=kfpcjr3gnmsrjof4ppekyudomxwoc8eickvsgkgn";
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) { stockNewsData = response; }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {}
+        });
+        queue.add(jsonObjectRequest);
+        return stockNewsData;
     }
+
     /****
      * fill dropdown list
      * @param selectStock
@@ -119,6 +167,9 @@ public class stockNews extends AppCompatActivity {
     public void fillList(ListView listView,JSONObject response){
         try {
             JSONArray value = response.getJSONArray("data");
+            arrListSentiment[0] = 0;
+            arrListSentiment[1] = 0;
+            arrListSentiment[2] = 0;
             for (int i=0;  i<value.length();i++){
                 JSONObject result = value.getJSONObject(i);
                 arrList.add(result.getString("text"));
@@ -129,7 +180,7 @@ public class stockNews extends AppCompatActivity {
                     case "Negative": arrListSentiment[2] +=1; break;
                 }
                 }
-            final ArrayAdapter<String> adapter = new ArrayAdapter<String>(stockNews.this,
+            adapter = new ArrayAdapter<String>(stockNews.this,
                     android.R.layout.simple_list_item_1, android.R.id.text1, arrList);
             listView.setAdapter(adapter);
         } catch (JSONException e) {
