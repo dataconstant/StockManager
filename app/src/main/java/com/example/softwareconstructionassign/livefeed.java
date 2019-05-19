@@ -43,7 +43,7 @@ public class livefeed extends AppCompatActivity {
 
         email = (String) getIntent().getSerializableExtra("email");
 
-        Spinner spinner = (Spinner) findViewById(R.id.planets_spinner);
+        Spinner spinner = (Spinner) findViewById(R.id.stocksDropdown);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.stocks_array, android.R.layout.simple_spinner_item);

@@ -89,4 +89,18 @@
         android:layout_marginRight="-6dp"
         android:text="Delete" />
 
+    <android.support.design.widget.BottomNavigationView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/bottom_navigation"
+        android:layout_width="402dp"
+        android:layout_height="47dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="start"
+        android:background="#2C2929"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/liststockNews"
+        app:menu="@menu/my_navigation_items" />
+
 </RelativeLayout>
