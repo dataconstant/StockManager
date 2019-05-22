@@ -139,7 +139,7 @@ public class stockNews extends AppCompatActivity {
 */
 
 
-
+        bottomNavigationView.setSelectedItemId(R.id.action_news);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
