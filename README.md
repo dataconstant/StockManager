@@ -65,5 +65,9 @@ _add references from where you obtained the idea form the app and ideas about as
 _reference all the code or ideas for code from other sources_
 
 ### Assets
-+ Credentials for database - Username - softwareconstructionassignment@gmail.com Password - comp6442
-+ API key - GF4EX3XKAFSY29GH
++ Credentials for registration: Username - softwareconstructionassignment@gmail.com Password - comp6442
++ Firebase: https://firebase.google.com/
++ Alpha Vantage: https://www.alphavantage.co/
++ Alpha Vantage API key - GF4EX3XKAFSY29GH
++ Stock News: https://stocknewsapi.com/
++ News API key: isto2i4cq7h369pzieouu5wxaw3n8bbjdgorkvaq
