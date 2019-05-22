@@ -4,7 +4,9 @@
  */
 package com.example.softwareconstructionassign;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -33,6 +35,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class stockNews extends AppCompatActivity {
 
@@ -40,8 +46,8 @@ public class stockNews extends AppCompatActivity {
     private int[] arrListSentiment = new int[3];
     private BarChart mchart;
     private String stockCode;
-    public JSONObject stockNewsData;
-    private ArrayAdapter<String> adapter;
+    private JSONObject stockNewsData;
+    private HashMap<Integer,String> newsHashMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,93 +59,41 @@ public class stockNews extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         final Intent intent = getIntent();
-        final ListView listView = findViewById(R.id.liststockNews);
         final BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         final ArrayList stockList = intent.getStringArrayListExtra("stocklist");
         final String email = intent.getStringExtra("email");
         final Spinner selectStock = findViewById(R.id.stocksDropdown);
+        final ListView listView = findViewById(R.id.liststockNews);
+
+        //get the stock data
+        stockCode = stockList.get(0).toString();
+        getJSON(stockCode,listView);
 
         //fill the dropdown list
         fillDropdownList(selectStock,stockList);
 
-        //get the stock data
-        stockCode = stockList.get(0).toString();
-        //stockNewsData = getStocksNews(stockCode);
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="https://stocknewsapi.com/api/v1?tickers="+stockCode+"&items=30&fallback=true&token=kfpcjr3gnmsrjof4ppekyudomxwoc8eickvsgkgn";
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                stockNewsData = response;
-                if (stockNewsData != null){
-                    fillList(listView,stockNewsData);
-                    fillChart(arrListSentiment);
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {}
-        }
-        );
-        queue.add(jsonObjectRequest);
-
-        //get spinner value
+        //Listener to get spinner value
         selectStock.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 stockCode = selectStock.getSelectedItem().toString();
-                RequestQueue queue = Volley.newRequestQueue(stockNews.this);
-                String url ="https://stocknewsapi.com/api/v1?tickers="+stockCode+"&items=30&fallback=true&token=kfpcjr3gnmsrjof4ppekyudomxwoc8eickvsgkgn";
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        stockNewsData = response;
-                        if (stockNewsData != null){
-                            adapter.clear();
-                            fillList(listView,stockNewsData);
-                            fillChart(arrListSentiment);
-                        }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {}
-                }
-                );
-                queue.add(jsonObjectRequest);
+                getJSON(stockCode,listView);
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                // your code here
-            }
-
-        });
-/*
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.action_recents:
-                        Toast.makeText(stockNews.this, "Recents", Toast.LENGTH_SHORT).show();
-                        //Intent intent = new Intent(stockNews.this,mainscreen.class);
-                        //startActivity(intent);
-                        break;
-                    case R.id.action_favorites:
-                        Toast.makeText(stockNews.this, "Favorites", Toast.LENGTH_SHORT).show();
-                        break;
-
                 }
-                return true;
+        });
+
+        //Listener to get list item value
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                openLink(position);
             }
         });
 
-
-
-
-*/
-
-
-
+        //Listener on bottom navigation
+        bottomNavigationView.setSelectedItemId(R.id.action_news);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -169,28 +123,39 @@ public class stockNews extends AppCompatActivity {
         });
     }
 
-    public JSONObject getStocksNews(String stock){
+    /****
+     * Function to getJSON object from news api website and fill the list view and chart
+     * @param stock
+     * @param listView
+     */
+    public void getJSON(String stock,final ListView listView){
         RequestQueue queue = Volley.newRequestQueue(this);
         String url ="https://stocknewsapi.com/api/v1?tickers="+stockCode+"&items=30&fallback=true&token=kfpcjr3gnmsrjof4ppekyudomxwoc8eickvsgkgn";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(JSONObject response) { stockNewsData = response; }
-                }, new Response.ErrorListener() {
+            public void onResponse(JSONObject response) {
+                stockNewsData = response;
+                if (stockNewsData != null){
+                    fillListView(listView,stockNewsData);
+                    fillChart(arrListSentiment);
+                }
+            }
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {}
-        });
+        }
+        );
         queue.add(jsonObjectRequest);
-        return stockNewsData;
     }
 
     /****
-     * fill dropdown list
+     * Fill dropdown list
      * @param selectStock
      * @param stockList
      */
     public void fillDropdownList(Spinner selectStock,ArrayList stockList){
         if(stockList != null){
-            final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(),
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(),
                     android.R.layout.simple_list_item_1,stockList);
             selectStock.setAdapter(adapter);
         }
@@ -201,27 +166,35 @@ public class stockNews extends AppCompatActivity {
      * @param listView
      * @param response
      */
-    public void fillList(ListView listView,JSONObject response){
+    public void fillListView(ListView listView,JSONObject response){
         try {
+
             JSONArray value = response.getJSONArray("data");
+
             arrListSentiment[0] = 0;
             arrListSentiment[1] = 0;
             arrListSentiment[2] = 0;
+
+            arrList.clear();
+            newsHashMap.clear();
+
             for (int i=0;  i<value.length();i++){
+
                 JSONObject result = value.getJSONObject(i);
+
                 arrList.add(result.getString("text"));
-                System.out.println(result.getString("sentiment"));
+                newsHashMap.put(i,result.getString("news_url"));
+
                 switch (result.getString("sentiment")){
                     case "Positive": arrListSentiment[0] +=1; break;
                     case "Neutral": arrListSentiment[1] +=1; break;
                     case "Negative": arrListSentiment[2] +=1; break;
                 }
-                }
-            adapter = new ArrayAdapter<String>(stockNews.this,
+            }
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(stockNews.this,
                     android.R.layout.simple_list_item_1, android.R.id.text1, arrList);
             listView.setAdapter(adapter);
         } catch (JSONException e) {
-            // add code if needed
         }
 
     }
@@ -235,8 +208,8 @@ public class stockNews extends AppCompatActivity {
         String[] mBarLabel = new String[3];
 
         mBarLabel[0] = "Positive";
-        mBarLabel[1] = "Positive";
-        mBarLabel[2] = "Positive";
+        mBarLabel[1] = "Neutral";
+        mBarLabel[2] = "Negative";
 
         mchart =(BarChart) findViewById(R.id.barchart);
         mchart.setDrawBarShadow(false);
@@ -256,13 +229,21 @@ public class stockNews extends AppCompatActivity {
             yvals.add(new BarEntry(i,value));
         }
 
-        BarDataSet set=new BarDataSet(yvals,"Sentiment chart of the news of");
+        BarDataSet set=new BarDataSet(yvals,"Sentiment chart (Positive, Neutral, Negative) of "+stockCode);
         set.setColors(ColorTemplate.MATERIAL_COLORS);
         set.setDrawValues(true);
 
         BarData data=new BarData(set);
         mchart.setData(data);
+    }
 
+    /****
+     * Open the news link in external browser
+     * @param position
+     */
+    public void openLink(int position){
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(newsHashMap.get(position)));
+        startActivity(browserIntent);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -272,9 +253,13 @@ public class stockNews extends AppCompatActivity {
         return true;
     }
 
+    /****
+     * Handle item selection
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
         switch (item.getItemId()) {
             case R.id.menu_a:
                 about();
@@ -291,6 +276,7 @@ public class stockNews extends AppCompatActivity {
         Intent intent = new Intent(getBaseContext(),mainscreen.class);
         startActivity(intent);
     }
+
     public void help(){
         Intent intent = new Intent(getBaseContext(),analytics.class);
         startActivity(intent);

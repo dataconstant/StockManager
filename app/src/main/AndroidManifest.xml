@@ -15,19 +15,26 @@
         >
         <activity
             android:name=".livefeed"
+            android:windowSoftInputMode="adjustPan"
             android:parentActivityName=".mainscreen" />
         <activity
             android:name=".stockNews"
+            android:windowSoftInputMode="adjustPan"
+            android:label="News Feed"
             android:parentActivityName=".mainscreen" />
         <activity
             android:name=".analytics"
+            android:windowSoftInputMode="adjustPan"
+            android:label="Analytics"
             android:parentActivityName=".mainscreen" >
         <intent-filter>
             <action android:name="android.intent.action.GET_CONTENT" />
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
         </activity>
-        <activity android:name=".mainscreen" />
+        <activity android:name=".mainscreen"
+            android:label="Dashboard"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
