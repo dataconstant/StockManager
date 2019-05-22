@@ -77,24 +77,32 @@ public class login extends AppCompatActivity {
     private void showData(DataSnapshot dataSnapshot) {
         String emailaddress1 = email.getText().toString();
         String pass1 = password.getText().toString();
-        boolean cond = false;
+        int cond = 0,count=0;
         if (!(emailaddress1.isEmpty() || pass1.isEmpty())) {
             for (DataSnapshot ds : dataSnapshot.getChildren()) {
                 emailclass eid = new emailclass(ds.getValue());
                 eid.setEmail(ds.child("email").getValue().toString());
                 eid.setPassword(ds.child("password").getValue().toString());
                 if (eid.email.equals(emailaddress1) && eid.password.equals(pass1)) {
-                    cond = true;
+                    cond = 1;
+                    break;
+                } else if ((eid.email.equals(emailaddress1) && !eid.password.equals(pass1)) || (!eid.email.equals(emailaddress1) && eid.password.equals(pass1))) {
+                    cond=2;
                     break;
                 }
+                else count++;
             }
-            if (cond == true) {
+            if (cond == 1) {
                 Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_LONG).show();
                 Intent myIntent = new Intent(getBaseContext(), mainscreen.class);
                 myIntent.putExtra("email", emailaddress1);
                 startActivity(myIntent);
-            } else {
-                Toast.makeText(getApplicationContext(), "Incorrect  email or Password", Toast.LENGTH_LONG).show();
+            }
+            if (cond == 2) {
+                Toast.makeText(getApplicationContext(), "Either email or password is incorrect", Toast.LENGTH_SHORT).show();
+            }
+            if (count == dataSnapshot.getChildrenCount()){
+                Toast.makeText(getApplicationContext(),"User does not exist. Please Sign Up",Toast.LENGTH_SHORT).show();
             }
         } else {
             Toast.makeText(getApplicationContext(), "Empty! Please enter email or password", Toast.LENGTH_LONG).show();
@@ -114,8 +122,6 @@ public class login extends AppCompatActivity {
             dblogin.child(id).setValue(useremail);
             Toast.makeText(this, "User Registered", Toast.LENGTH_LONG).show();
 
-            email.setText("");
-            password.setText("");
 
         } else {
             Toast.makeText(this, "Please enter a valid email address to sign up", Toast.LENGTH_LONG).show();
