@@ -21,16 +21,16 @@ The app also includes: About Us and Help
 ### Login
 In the login screen, the user will enter user email and password. If user is not registered, then app will register the user. 
 
-### Dashboard
+#### Dashboard
 The user will move to dashboard screen, where stocks can be added to portfolio list and can be deleted.
 
-###Analytics
+#### Analytics
 In this screen, based on a particular stock, graph is display of the price of stock and keep parameters. 
 
-###News Feed
+#### News Feed
 In news feed, a sentiment graph is display which tell about where the the stock has positive, neutral or negative news in the market.
 
-###About Us
+#### About Us
 The screen, presents information about the group.
 
 ## Design Documentation
