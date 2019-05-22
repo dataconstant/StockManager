@@ -18,10 +18,10 @@ The app navigation includes both top and bottom.
 The app features are connectivity to FireBase database, call to Alpha Vantage API, use of MPAndriodCharts, call to Stock News api.
 The app also includes: About Us and Help
 
-###Login
+### Login
 In the login screen, the user will enter user email and password. If user is not registered, then app will register the user. 
 
-###Dashboard
+### Dashboard
 The user will move to dashboard screen, where stocks can be added to portfolio list and can be deleted.
 
 ###Analytics
