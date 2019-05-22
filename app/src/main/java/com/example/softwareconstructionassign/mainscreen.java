@@ -127,13 +127,9 @@ public class mainscreen extends AppCompatActivity {
                                         }
                                     }
 
-                                    dblogin.addValueEventListener(new ValueEventListener() {
+                                    dblogin.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                            showData(dataSnapshot);
-                                        }
-
-                                        private void showData(DataSnapshot dataSnapshot) {
                                             emailclass eid = null;
                                             for (DataSnapshot ds : dataSnapshot.getChildren()) {
                                                 eid = new emailclass(ds.getValue());
@@ -236,16 +232,26 @@ public class mainscreen extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case R.id.action_analytics:
-                        Intent analyticsintent = new Intent(getBaseContext(),analytics.class);
-                        analyticsintent.putExtra("stocklist",list);
-                        analyticsintent.putExtra("email",email);
-                        startActivity(analyticsintent);
+                        if(list.isEmpty()){
+                            Toast.makeText(getApplicationContext(), "Please add a stock", Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            Intent analyticsintent = new Intent(getBaseContext(), analytics.class);
+                            analyticsintent.putExtra("stocklist", list);
+                            analyticsintent.putExtra("email", email);
+                            startActivity(analyticsintent);
+                        }
                         break;
                     case R.id.action_news:
-                        Intent newsintent = new Intent(getBaseContext(),stockNews.class);
-                        newsintent.putExtra("stocklist",list);
-                        newsintent.putExtra("email",email);
-                        startActivity(newsintent);
+                        if(list.isEmpty()){
+                            Toast.makeText(getApplicationContext(), "Please add a stock", Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            Intent newsintent = new Intent(getBaseContext(), stockNews.class);
+                            newsintent.putExtra("stocklist", list);
+                            newsintent.putExtra("email", email);
+                            startActivity(newsintent);
+                        }
                         break;
 
                 }
