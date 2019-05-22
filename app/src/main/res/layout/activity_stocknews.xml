@@ -54,14 +54,13 @@
     <android.support.design.widget.BottomNavigationView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/bottom_navigation"
-        android:layout_width="402dp"
+        android:layout_width="fill_parent"
         android:layout_height="47dp"
-        android:layout_gravity="start"
         android:background="#2C2929"
+        app:itemTextColor="#FFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/liststockNews"
         app:menu="@menu/my_navigation_items" />
 
 </android.support.constraint.ConstraintLayout>

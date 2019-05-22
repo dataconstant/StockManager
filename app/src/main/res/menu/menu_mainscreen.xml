@@ -3,15 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/menu_p"
-        android:title="Portfolio"
-        android:visible="true" />
-    <item
         android:id="@+id/menu_a"
-        android:title="Analytics"
+        android:title="About"
         android:visible="true" />
     <item
-        android:id="@+id/menu_l"
-        android:title="Live Feed"
+        android:id="@+id/menu_h"
+        android:title="Help"
         android:visible="true" />
 </menu>

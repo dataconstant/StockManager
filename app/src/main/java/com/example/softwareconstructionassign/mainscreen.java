@@ -61,7 +61,9 @@ public class mainscreen extends AppCompatActivity {
         final TextView deleteText = findViewById(R.id.deleteText);
         final Spinner selectStock = findViewById(R.id.selectStock);
         final Button deleteButton = findViewById(R.id.deleteButton);
+        final TextView textstocklist = findViewById(R.id.textstocklist);
 
+        getSupportActionBar().setHomeButtonEnabled(false);
 
         dblogin.addValueEventListener(new ValueEventListener() {
             @Override
@@ -85,7 +87,6 @@ public class mainscreen extends AppCompatActivity {
                             adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, list);
                             listview.setAdapter(adapter);
                             selectStock.setAdapter(adapter);
-
                         }
 
                     }
@@ -96,7 +97,6 @@ public class mainscreen extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-
 
         buttonsearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,7 +126,6 @@ public class mainscreen extends AppCompatActivity {
                                             stocklist = newstock;
                                         }
                                     }
-
 
                                     dblogin.addValueEventListener(new ValueEventListener() {
                                         @Override
@@ -230,14 +229,23 @@ public class mainscreen extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.action_recents:
-                        Toast.makeText(mainscreen.this, "Recents", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(mainscreen.this,stockNews.class);
+                    case R.id.action_dash:
+                        Intent intent = new Intent(getBaseContext(),mainscreen.class);
                         intent.putExtra("stocklist",list);
+                        intent.putExtra("email",email);
                         startActivity(intent);
                         break;
-                    case R.id.action_favorites:
-                        Toast.makeText(mainscreen.this, "Favorites", Toast.LENGTH_SHORT).show();
+                    case R.id.action_analytics:
+                        Intent analyticsintent = new Intent(getBaseContext(),analytics.class);
+                        analyticsintent.putExtra("stocklist",list);
+                        analyticsintent.putExtra("email",email);
+                        startActivity(analyticsintent);
+                        break;
+                    case R.id.action_news:
+                        Intent newsintent = new Intent(getBaseContext(),stockNews.class);
+                        newsintent.putExtra("stocklist",list);
+                        newsintent.putExtra("email",email);
+                        startActivity(newsintent);
                         break;
 
                 }
@@ -260,35 +268,28 @@ public class mainscreen extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
-            case R.id.menu_p:
-                portfolio();
-                return true;
             case R.id.menu_a:
-                analytics();
+                about();
                 return true;
-            case R.id.menu_l:
-                livefeed();
+            case R.id.menu_h:
+                help();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    public void portfolio(){
+    public void about(){
         Intent intent = new Intent(getBaseContext(),mainscreen.class);
         intent.putExtra("stocklist",list);
         intent.putExtra("email",email);
         startActivity(intent);
     }
-    public void analytics(){
+    public void help(){
         Intent intent = new Intent(getBaseContext(),analytics.class);
         intent.putExtra("stocklist",list);
         intent.putExtra("email",email);
         startActivity(intent);
     }
-    public void livefeed(){
-        Intent intent = new Intent(getBaseContext(),livefeed.class);
-        intent.putExtra("email",email);
-        startActivity(intent);
-    }
+
 }

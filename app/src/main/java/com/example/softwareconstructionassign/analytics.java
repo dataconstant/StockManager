@@ -1,6 +1,8 @@
 package com.example.softwareconstructionassign;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -55,6 +57,10 @@ public class analytics extends AppCompatActivity {
         final Spinner selectStock = findViewById(R.id.sp);
         fillDropdownList(selectStock,stock);
         stockCode = stock.get(0).toString();
+
+        getSupportActionBar().setHomeButtonEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
         selectStock.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -187,6 +193,37 @@ public class analytics extends AppCompatActivity {
                         }
                     });
             queue.add(jsonObjectRequest);
+
+
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_dash:
+                        Intent intent = new Intent(getBaseContext(),mainscreen.class);
+                        intent.putExtra("stocklist",stock);
+                        intent.putExtra("email",email);
+                        startActivity(intent);
+                        break;
+                    case R.id.action_analytics:
+                        Intent analyticsintent = new Intent(getBaseContext(),analytics.class);
+                        analyticsintent.putExtra("stocklist",stock);
+                        analyticsintent.putExtra("email",email);
+                        startActivity(analyticsintent);
+                        break;
+                    case R.id.action_news:
+                        Intent newsintent = new Intent(getBaseContext(),stockNews.class);
+                        newsintent.putExtra("stocklist",stock);
+                        newsintent.putExtra("email",email);
+                        startActivity(newsintent);
+                        break;
+
+                }
+                return true;
+            }
+        });
+
         }
     public void fillDropdownList(Spinner selectStock,ArrayList stock){
         if(stock != null){
@@ -208,33 +245,25 @@ public class analytics extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
-            case R.id.menu_p:
-                portfolio();
-                return true;
             case R.id.menu_a:
-                analytics();
+                about();
                 return true;
-            case R.id.menu_l:
-                livefeed();
+            case R.id.menu_h:
+                help();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    public void portfolio(){
+    public void about(){
         Intent intent = new Intent(getBaseContext(),mainscreen.class);
-        intent.putExtra("email",email);
+
         startActivity(intent);
     }
-    public void analytics(){
+    public void help(){
         Intent intent = new Intent(getBaseContext(),analytics.class);
-        intent.putExtra("email",email);
-        startActivity(intent);
-    }
-    public void livefeed(){
-        Intent intent = new Intent(getBaseContext(),livefeed.class);
-        intent.putExtra("email",email);
+
         startActivity(intent);
     }
 

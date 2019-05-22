@@ -17,7 +17,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -50,10 +49,14 @@ public class stockNews extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stocknews);
 
+        getSupportActionBar().setHomeButtonEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
         final Intent intent = getIntent();
         final ListView listView = findViewById(R.id.liststockNews);
         final BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         final ArrayList stockList = intent.getStringArrayListExtra("stocklist");
+        final String email = intent.getStringExtra("email");
         final Spinner selectStock = findViewById(R.id.stocksDropdown);
 
         //fill the dropdown list
@@ -129,7 +132,41 @@ public class stockNews extends AppCompatActivity {
                 return true;
             }
         });
+
+
+
+
 */
+
+
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_dash:
+                        Intent intent = new Intent(getBaseContext(),mainscreen.class);
+                        intent.putExtra("stocklist",stockList);
+                        intent.putExtra("email",email);
+                        startActivity(intent);
+                        break;
+                    case R.id.action_analytics:
+                        Intent analyticsintent = new Intent(getBaseContext(),analytics.class);
+                        analyticsintent.putExtra("stocklist",stockList);
+                        analyticsintent.putExtra("email",email);
+                        startActivity(analyticsintent);
+                        break;
+                    case R.id.action_news:
+                        Intent newsintent = new Intent(getBaseContext(),stockNews.class);
+                        newsintent.putExtra("stocklist",stockList);
+                        newsintent.putExtra("email",email);
+                        startActivity(newsintent);
+                        break;
+
+                }
+                return true;
+            }
+        });
     }
 
     public JSONObject getStocksNews(String stock){
@@ -239,33 +276,24 @@ public class stockNews extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
-            case R.id.menu_p:
-                portfolio();
-                return true;
             case R.id.menu_a:
-                analytics();
+                about();
                 return true;
-            case R.id.menu_l:
-                livefeed();
+            case R.id.menu_h:
+                help();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    public void portfolio(){
+    public void about(){
         Intent intent = new Intent(getBaseContext(),mainscreen.class);
         startActivity(intent);
     }
-    public void analytics(){
+    public void help(){
         Intent intent = new Intent(getBaseContext(),analytics.class);
         startActivity(intent);
     }
-    public void livefeed(){
-        Intent intent = new Intent(getBaseContext(),livefeed.class);
-        startActivity(intent);
-    }
-
-
 
 }

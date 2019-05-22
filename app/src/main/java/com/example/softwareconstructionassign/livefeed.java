@@ -107,12 +107,12 @@ public class livefeed extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.action_recents:
+                    case R.id.action_dash:
                         Toast.makeText(livefeed.this, "Recents", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(livefeed.this,mainscreen.class);
                         startActivity(intent);
                         break;
-                    case R.id.action_favorites:
+                    case R.id.action_analytics:
                         Toast.makeText(livefeed.this, "Favorites", Toast.LENGTH_SHORT).show();
                         break;
 
@@ -129,41 +129,31 @@ public class livefeed extends AppCompatActivity {
         inflater.inflate(R.menu.menu_mainscreen, menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
-            case R.id.menu_p:
-                portfolio();
-                return true;
             case R.id.menu_a:
-                analytics();
+                about();
                 return true;
-            case R.id.menu_l:
-                livefeed();
+            case R.id.menu_h:
+                help();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    public void portfolio(){
+    public void about(){
         Intent intent = new Intent(getBaseContext(),mainscreen.class);
-        intent.putExtra("email",email);
-        startActivity(intent);
-    }
-    public void analytics(){
-        Intent intent = new Intent(getBaseContext(),analytics.class);
-        intent.putExtra("email",email);
-        startActivity(intent);
-    }
-    public void livefeed(){
-        Intent intent = new Intent(getBaseContext(),livefeed.class);
-        intent.putExtra("email",email);
-        startActivity(intent);
-    }
 
+        startActivity(intent);
+    }
+    public void help(){
+        Intent intent = new Intent(getBaseContext(),analytics.class);
+
+        startActivity(intent);
+    }
 
 
 }

@@ -3,17 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_recents"
+        android:id="@+id/action_dash"
         android:enabled="true"
-        android:icon="@drawable/ic_mainscreen"
-        android:title="Recents"
-        app:showAsAction="ifRoom" />
+        android:title="Dashboard" />
 
     <item
-        android:id="@+id/action_favorites"
+        android:id="@+id/action_analytics"
         android:enabled="true"
-        android:icon="@drawable/ic_analytics"
-        android:title="Favorites"
-        app:showAsAction="ifRoom" />
+        android:title="Analytics" />
+
+    <item
+        android:id="@+id/action_news"
+        android:enabled="true"
+        android:title="News"
+        />
 
 </menu>

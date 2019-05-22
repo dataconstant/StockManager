@@ -118,7 +118,7 @@
     <android.support.design.widget.BottomNavigationView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/bottom_navigation"
-        android:layout_width="414dp"
+        android:layout_width="fill_parent"
         android:layout_height="41dp"
         android:layout_gravity="start"
         android:background="#2C2929"
