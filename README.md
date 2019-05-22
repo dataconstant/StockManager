@@ -33,6 +33,9 @@ In news feed, a sentiment graph is display which tell about where the the stock 
 #### About Us
 The screen, presents information about the group.
 
+#### Help
+Help includes information on the app and its help. 
+
 ## Design Documentation
 + [Design Summary](designsummary)
 + [Testing Summary](testingsummary)
@@ -55,8 +58,6 @@ assignment is entirely my own work, with exceptions given below.
 
 I Kruthi Senapathi declare that everything I have submitted in this
 assignment is entirely my own work, with exceptions given below.
-
-
 
 ### Inspiration
 _add references from where you obtained the idea form the app and ideas about aspects of the app_
