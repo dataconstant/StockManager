@@ -7,7 +7,21 @@
 + Kruthi Senapathi u6601532 - team member 
 
 ## App Overview
-_Add a paragraph the gives a summary of the app you implemented. Include a small screen shot here._
+The app is named Stock Manager. Stocks are primarily investment of an individual in a company. 
+The stcoks/ shares are floated on stcok exchanges such as NYSE (New York Stock Exchange), NASDAQ, London Stock Exchange.
+People use stocks as investment mechanism and put saving into it. 
+
+The need and useability of app is real time management of stock list, display of current stock price & analysis and current news feed of the stocks.  
+
+The app is desgined in four parts: Login, dashboard, analytics and newsfeed.
+The app navigation includes both top and bottom.
+The app features are connectivity to FireBase database, call to Alpha Vantage API, use of MPAndriodCharts, call to Stock News api.
+The app also includes: About Us and Help
+
+###Login
+In the login 
+
+Trading is automated and it important to get daily 
 
 ## Design Documentation
 + [Design Summary](designsummary)
