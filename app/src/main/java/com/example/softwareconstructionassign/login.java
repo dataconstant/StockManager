@@ -92,8 +92,8 @@ public class login extends AppCompatActivity {
                 }
                 else count++;
             }
-            if (cond == 1) {
-                Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_LONG).show();
+            if (cond == 1 ) {
+                //Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_SHORT).show();
                 Intent myIntent = new Intent(getBaseContext(), mainscreen.class);
                 myIntent.putExtra("email", emailaddress1);
                 startActivity(myIntent);
@@ -105,7 +105,7 @@ public class login extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"User does not exist. Please Sign Up",Toast.LENGTH_SHORT).show();
             }
         } else {
-            Toast.makeText(getApplicationContext(), "Empty! Please enter email or password", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Empty! Please enter email or password", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -120,11 +120,11 @@ public class login extends AppCompatActivity {
             emailclass useremail = new emailclass(id, emailaddress, pass, "");
 
             dblogin.child(id).setValue(useremail);
-            Toast.makeText(this, "User Registered", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "User Registered", Toast.LENGTH_SHORT).show();
 
 
         } else {
-            Toast.makeText(this, "Please enter a valid email address to sign up", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Please enter a valid email address to sign up", Toast.LENGTH_SHORT).show();
         }
     }
 }

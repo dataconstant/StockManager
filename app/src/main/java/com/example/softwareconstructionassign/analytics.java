@@ -88,7 +88,7 @@ public class analytics extends AppCompatActivity {
                                     yvals.add(new BarEntry(1, (float) high));
                                     yvals.add(new BarEntry(2, (float) low));
                                     yvals.add(new BarEntry(3, (float) close));
-                                    BarDataSet set = new BarDataSet(yvals, " " + stock.get(0));
+                                    BarDataSet set = new BarDataSet(yvals, " open,high,low,close of " + stockCode+" respectively ");
                                     set.setColors(ColorTemplate.MATERIAL_COLORS);
                                     set.setDrawValues(true);
                                     BarData data = new BarData(set);
@@ -101,7 +101,7 @@ public class analytics extends AppCompatActivity {
                                     String dateString = sdf.format(date);
                                     tdate.setText(dateString);
                                     TextView n =(TextView) findViewById(R.id.name);
-                                    n.setText(s);
+                                    n.setText(stockCode);
                                     TextView o=(TextView)findViewById(R.id.op);
                                     o.setText("OPEN STOCK:"+Integer.toString(open));
                                     TextView cc=(TextView)findViewById(R.id.cl);
@@ -155,7 +155,7 @@ public class analytics extends AppCompatActivity {
                                 yvals.add(new BarEntry(1, (float) high));
                                 yvals.add(new BarEntry(2, (float) low));
                                 yvals.add(new BarEntry(3, (float) close));
-                                BarDataSet set = new BarDataSet(yvals, " " + stock.get(0));
+                                BarDataSet set = new BarDataSet(yvals, " open,high,low,close of " + stockCode+" respectively ");
                                 set.setColors(ColorTemplate.MATERIAL_COLORS);
                                 set.setDrawValues(true);
                                 BarData data = new BarData(set);
@@ -168,7 +168,7 @@ public class analytics extends AppCompatActivity {
                                 String dateString = sdf.format(date);
                                 tdate.setText(dateString);
                                 TextView n =(TextView) findViewById(R.id.name);
-                                n.setText(s);
+                                n.setText(stockCode);
                                 TextView o=(TextView)findViewById(R.id.op);
                                 o.setText("OPEN STOCK:"+Integer.toString(open));
                                 TextView cc=(TextView)findViewById(R.id.cl);
