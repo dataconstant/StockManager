@@ -88,7 +88,7 @@ public class analytics extends AppCompatActivity {
                                     yvals.add(new BarEntry(1, (float) high));
                                     yvals.add(new BarEntry(2, (float) low));
                                     yvals.add(new BarEntry(3, (float) close));
-                                    BarDataSet set = new BarDataSet(yvals, " " + stockCode);
+                                    BarDataSet set = new BarDataSet(yvals, " open,high,low,close of " + stockCode+" respectively ");
                                     set.setColors(ColorTemplate.MATERIAL_COLORS);
                                     set.setDrawValues(true);
                                     BarData data = new BarData(set);
@@ -155,7 +155,7 @@ public class analytics extends AppCompatActivity {
                                 yvals.add(new BarEntry(1, (float) high));
                                 yvals.add(new BarEntry(2, (float) low));
                                 yvals.add(new BarEntry(3, (float) close));
-                                BarDataSet set = new BarDataSet(yvals, " " + stockCode);
+                                BarDataSet set = new BarDataSet(yvals, " open,high,low,close of " + stockCode+" respectively ");
                                 set.setColors(ColorTemplate.MATERIAL_COLORS);
                                 set.setDrawValues(true);
                                 BarData data = new BarData(set);
