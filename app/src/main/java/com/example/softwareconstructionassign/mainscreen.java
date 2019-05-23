@@ -68,10 +68,6 @@ public class mainscreen extends AppCompatActivity {
         dblogin.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                showData(dataSnapshot);
-            }
-
-            private void showData(DataSnapshot dataSnapshot) {
                 emailclass eid = null;
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     eid = new emailclass(ds.getValue());
