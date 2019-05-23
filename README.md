@@ -85,6 +85,9 @@ _add references from where you obtained the idea form the app and ideas about as
 ### Code
 _reference all the code or ideas for code from other sources_
 
+### More Information 
+_please refer to Wiki to obtain detailed information about the project_
+
 ### Assets
 + Credentials for registration: Username - softwareconstructionassignment@gmail.com Password - comp6442
 + Firebase: https://firebase.google.com/
