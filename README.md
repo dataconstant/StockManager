@@ -28,14 +28,25 @@ time database (Fire base) which is also easy to access and manage. This activity
 and users needs to login to access the other features of this app. 
 
 #### Dashboard
-The user will move to dashboard screen, where stocks can be added to portfolio list and can be deleted.
+The user will move to dashboard screen once he/she gets logged in.
+This view contains all the stocks that have been added to his profile. 
+This also has a user friendly interface where one can always add/delete/edit his stocks into the users portfolio.
+This activity allows users to edit stocks in realtime.
 
 #### Analytics
-In this screen, based on a particular stock, graph is display of the price of stock and keep parameters. 
+An activity that can be accessed when user gets logged in and adds up the stocks. 
+Its has real time analysed information that is obtained from a JSON file through web which is updated every day.
+Its an activity that creates an analysed view of every particular stock that is added onto the users profile. 
+It loads the stock details of every particular user from the dashboard activity and based on this it gives the user 
+an access to analyse each and every stock that is been added. This activity has all the information such as open/close/high/low/volume
+of every stock which is obtained by a realtime update. It also gives a visual overview of the stock by displaying the bar chart which makes
+it easy for user to work on the stock.
+
 
 #### News Feed
-In news feed, a sentiment graph is display which tell about where the the stock has positive, neutral or negative news in the market.
-
+In news feed, a sentiment graph is displayed which tells about where the the stock has positive, neutral or negative news in the market. 
+Its an activity which is also based on a realtime update of the stock its help user to get more updates about the particular stock.
+This makes it easy for the user to predict the growth of the stock and whether to invest in it or opt not too.
 #### About Us
 The screen, presents information about the group.
 
