@@ -53,6 +53,8 @@ public class mainscreen extends AppCompatActivity {
         setContentView(R.layout.activity_main_screen);
 
         email = (String) getIntent().getSerializableExtra("email");
+        String name = email.split("@")[0];
+
 
         final TextView search = findViewById(R.id.editText);
         final Button buttonsearch = (Button) findViewById(R.id.searchButton);
@@ -62,7 +64,8 @@ public class mainscreen extends AppCompatActivity {
         final Spinner selectStock = findViewById(R.id.selectStock);
         final Button deleteButton = findViewById(R.id.deleteButton);
         final TextView textstocklist = findViewById(R.id.textstocklist);
-
+        TextView textView7 = findViewById(R.id.textView7);
+        textView7.setText("Welcome "+name.toUpperCase()+"!");
         getSupportActionBar().setHomeButtonEnabled(false);
 
         dblogin.addValueEventListener(new ValueEventListener() {
@@ -133,10 +136,11 @@ public class mainscreen extends AppCompatActivity {
                                                 eid.setstocks(ds.child("stocks").getValue().toString());
                                                 if (email.equals(eid.email) && present==false) {
                                                     ds.getRef().child("stocks").setValue(stocklist);
-                                                    Toast.makeText(getApplicationContext(), "Added " + newstock + " to your portfolio", Toast.LENGTH_LONG).show();
+                                                    Toast.makeText(getApplicationContext(), "Added " + newstock + " to your portfolio", Toast.LENGTH_SHORT).show();
                                                 }
                                                 else if(present==true){
-                                                    Toast.makeText(getApplicationContext(), "The stock is already added", Toast.LENGTH_LONG).show();
+                                                    Toast.makeText(getApplicationContext(), "The stock is already added", Toast.LENGTH_SHORT).show();
+                                                    break;
                                                 }
                                             }
                                         }
@@ -230,7 +234,7 @@ public class mainscreen extends AppCompatActivity {
                         break;
                     case R.id.action_analytics:
                         if(list.isEmpty()){
-                            Toast.makeText(getApplicationContext(), "Please add a stock", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Please add a stock", Toast.LENGTH_SHORT).show();
                         }
                         else {
                             Intent analyticsintent = new Intent(getBaseContext(), analytics.class);
@@ -241,7 +245,7 @@ public class mainscreen extends AppCompatActivity {
                         break;
                     case R.id.action_news:
                         if(list.isEmpty()){
-                            Toast.makeText(getApplicationContext(), "Please add a stock", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Please add a stock", Toast.LENGTH_SHORT).show();
                         }
                         else {
                             Intent newsintent = new Intent(getBaseContext(), stockNews.class);
