@@ -34,6 +34,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+// Code by Abhishek Chetri (u6647717)
 
 public class mainscreen extends AppCompatActivity {
 
@@ -52,6 +53,7 @@ public class mainscreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
 
+        // receiving the bundle information sent from the login activity
         email = (String) getIntent().getSerializableExtra("email");
         String name = email.split("@")[0];
 
@@ -66,8 +68,11 @@ public class mainscreen extends AppCompatActivity {
         final TextView textstocklist = findViewById(R.id.textstocklist);
         TextView textView7 = findViewById(R.id.textView7);
         textView7.setText("Welcome "+name.toUpperCase()+"!");
+
+        //To disable back button
         getSupportActionBar().setHomeButtonEnabled(false);
 
+        // Event Listener for getting the data from database and populating the listview and the spinner
         dblogin.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -77,12 +82,13 @@ public class mainscreen extends AppCompatActivity {
                     eid.setEmail(ds.child("email").getValue().toString());
                     eid.setstocks(ds.child("stocks").getValue().toString());
                     if (email.equals(eid.email)) {
+
+                        // getting the stock data from database after checking the user email.
                         stocklist = eid.getstocks();
                         String[] separated = stocklist.split(";");
 
                         for (int i = 1; i < separated.length; i++) {
                             list.add(separated[i]);
-
                             adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, list);
                             listview.setAdapter(adapter);
                             selectStock.setAdapter(adapter);
@@ -97,6 +103,8 @@ public class mainscreen extends AppCompatActivity {
             }
         });
 
+        // CLick listener for searching a string. This will take the input from the user and once the button is pressed, will call API and receive the stock names closest to the search term.
+        // Once the stock symbol has been found. It will check if the symbol is already present in the database and will add it to the database if the symbol is not present.
         buttonsearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,6 +134,7 @@ public class mainscreen extends AppCompatActivity {
                                         }
                                     }
 
+                                    // This Event listener will check of the stock is already present in the database and will add it. if the stock is not present.
                                     dblogin.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -162,6 +171,8 @@ public class mainscreen extends AppCompatActivity {
             }
         });
 
+        // This click listener will delete the stock selected from the spinner. It will first select the stock from the arraylist and then delete the stock from the arraylist.
+        // This will then replace the stock data on the database.
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -186,21 +197,19 @@ public class mainscreen extends AppCompatActivity {
                     }
 
                 }
-                System.out.println(stocklist);
 
+                // This event listener will replace the stock data present in the database.
                 dblogin.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        showData(dataSnapshot);
-                    }
 
-                    private void showData(DataSnapshot dataSnapshot) {
                         emailclass eid = null;
                         for (DataSnapshot ds : dataSnapshot.getChildren()) {
                             eid = new emailclass(ds.getValue());
                             eid.setEmail(ds.child("email").getValue().toString());
                             eid.setstocks(ds.child("stocks").getValue().toString());
                             if (email.equals(eid.email)) {
+                                // Updating the stock list on database.
                                 if (list.size() == 0)
                                     ds.getRef().child("stocks").setValue("");
                                 else
@@ -220,6 +229,7 @@ public class mainscreen extends AppCompatActivity {
             }
         });
 
+        // This is for the bottom navigation bar. The user will be able to select the next activities from the navigation bar.
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.action_dash);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
