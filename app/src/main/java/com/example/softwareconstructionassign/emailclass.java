@@ -1,9 +1,9 @@
-package com.example.softwareconstructionassign;
-
 /******
  * Project: Software Construction
  * Author: DILEEP VEMULA
  */
+package com.example.softwareconstructionassign;
+
 public class emailclass {
     String id;
     String email;

@@ -270,7 +270,7 @@ public class stockNews extends AppCompatActivity {
      * move to about activity
      */
     public void about(){
-        Intent intent = new Intent(getBaseContext(),mainscreen.class);
+        Intent intent = new Intent(getBaseContext(),About.class);
         startActivity(intent);
     }
 
@@ -278,7 +278,7 @@ public class stockNews extends AppCompatActivity {
      * move to help
      */
     public void help(){
-        Intent intent = new Intent(getBaseContext(),analytics.class);
+        Intent intent = new Intent(getBaseContext(),Help.class);
         startActivity(intent);
     }
 

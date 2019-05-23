@@ -1,3 +1,8 @@
+/******
+ * Project: Software Construction
+ * Author: DILEEP VEMULA
+ */
+
 package com.example.softwareconstructionassign;
 
 import android.content.Intent;
@@ -16,10 +21,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
-/******
- * Project: Software Construction
- * Author: DILEEP VEMULA
- */
 public class login extends AppCompatActivity {
 
 
