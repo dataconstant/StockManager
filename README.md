@@ -19,7 +19,13 @@ The app features are connectivity to FireBase database, call to Alpha Vantage AP
 The app also includes: About Us and Help
 
 ### Login
-In the login screen, the user will enter user email and password. If user is not registered, then app will register the user. 
+In the login screen, the user enters user email and password.
+If the user is not registered, the app provides an option to register the 
+user and it stores the user credentials and creates a database record to access and manage their 
+stocks in a user friendly view. Existing user cannot register again. The Login page makes it very easy to 
+access the app and go through it, as it has a effective and efficient interface that is connected to a real 
+time database (Fire base) which is also easy to access and manage. This activity is the 1st page of our app 
+and users needs to login to access the other features of this app. 
 
 #### Dashboard
 The user will move to dashboard screen, where stocks can be added to portfolio list and can be deleted.
