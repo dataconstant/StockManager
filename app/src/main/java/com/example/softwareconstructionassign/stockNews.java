@@ -266,16 +266,26 @@ public class stockNews extends AppCompatActivity {
         }
     }
 
+    /***
+     * move to about activity
+     */
     public void about(){
         Intent intent = new Intent(getBaseContext(),mainscreen.class);
         startActivity(intent);
     }
 
+    /***
+     * move to help
+     */
     public void help(){
         Intent intent = new Intent(getBaseContext(),analytics.class);
         startActivity(intent);
     }
 
+    /***
+     * select navigation options
+     * @param item
+     */
     public void selectNavigationMenu(MenuItem item){
         switch (item.getItemId()) {
             case R.id.action_dash:
