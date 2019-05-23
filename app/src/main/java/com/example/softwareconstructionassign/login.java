@@ -54,7 +54,6 @@ public class login extends AppCompatActivity {
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //addemail();
                 checkUserExists();
             }
         });
@@ -98,31 +97,33 @@ public class login extends AppCompatActivity {
                 eid.setEmail(ds.child("email").getValue().toString());
                 eid.setPassword(ds.child("password").getValue().toString());
                 if (eid.email.equals(emailaddress1) && eid.password.equals(pass1)) {
-                    cond = 1;
+                    cond = 1; // useremail and password match with a child in db
                     break;
                 } else if ((eid.email.equals(emailaddress1) && !eid.password.equals(pass1)) || (!eid.email.equals(emailaddress1) && eid.password.equals(pass1))) {
                     cond = 2;
                     break;
                 } else count++;
             }
-            if (cond == 1) {
+            if (cond == 1) { //if the match happens, Intent to main screen
                 Intent myIntent = new Intent(getBaseContext(), mainscreen.class);
                 myIntent.putExtra("email", emailaddress1);
                 startActivity(myIntent);
             }
-            if (cond == 2) {
+            if (cond == 2) { //if Either email or password is incorrect toast this message
                 Toast.makeText(getApplicationContext(), "Either email or password is incorrect", Toast.LENGTH_SHORT).show();
             }
             if (count == dataSnapshot.getChildrenCount()) {
+                //if useremail does not exist in db, ask user to sign up and then login.
                 Toast.makeText(getApplicationContext(), "User does not exist. Please Sign Up", Toast.LENGTH_SHORT).show();
             }
         } else {
+            //if email or password is empty and user tries to login, toast this message.
             Toast.makeText(getApplicationContext(), "Empty! Please enter email or password", Toast.LENGTH_SHORT).show();
         }
     }
 
     /**
-     * Method to check if user wanting to sign up exists or not.
+     * Method to check if user wanting to sign up exists or not by accessing db.
      */
     private void checkUserExists() {
         dblogin.addValueEventListener(new ValueEventListener() {
@@ -155,6 +156,7 @@ public class login extends AppCompatActivity {
             }
         }
        if (cond == false){
+           //if user does not exist then go ahead with sign up
            addemail();
        }
        if (cond ==true){
