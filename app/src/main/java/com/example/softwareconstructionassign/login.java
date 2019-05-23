@@ -15,7 +15,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-//Code by DILEEP VEMULA (u6631257).
+
+/******
+ * Project: Software Construction
+ * Author: DILEEP VEMULA
+ */
 public class login extends AppCompatActivity {
 
 

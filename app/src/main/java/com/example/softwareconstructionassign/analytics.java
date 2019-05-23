@@ -258,12 +258,12 @@ public class analytics extends AppCompatActivity {
     }
 
     public void about(){
-        Intent intent = new Intent(getBaseContext(),mainscreen.class);
+        Intent intent = new Intent(getBaseContext(),About.class);
 
         startActivity(intent);
     }
     public void help(){
-        Intent intent = new Intent(getBaseContext(),analytics.class);
+        Intent intent = new Intent(getBaseContext(),Help.class);
 
         startActivity(intent);
     }

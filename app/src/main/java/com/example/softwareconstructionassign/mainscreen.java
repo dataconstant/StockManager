@@ -287,15 +287,15 @@ public class mainscreen extends AppCompatActivity {
     }
 
     public void about(){
-        Intent intent = new Intent(getBaseContext(),mainscreen.class);
-        intent.putExtra("stocklist",list);
-        intent.putExtra("email",email);
+        Intent intent = new Intent(getBaseContext(),About.class);
+        /*intent.putExtra("stocklist",list);
+        intent.putExtra("email",email);*/
         startActivity(intent);
     }
     public void help(){
-        Intent intent = new Intent(getBaseContext(),analytics.class);
-        intent.putExtra("stocklist",list);
-        intent.putExtra("email",email);
+        Intent intent = new Intent(getBaseContext(),Help.class);
+        /*intent.putExtra("stocklist",list);
+        intent.putExtra("email",email);*/
         startActivity(intent);
     }
 
