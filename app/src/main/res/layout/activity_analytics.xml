@@ -6,145 +6,145 @@
     android:layout_height="match_parent"
     tools:context=".analytics">
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-    
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:layout_gravity="center"
-        android:text="Stock Analytics"/>
-
-    <Spinner
-        android:id="@+id/sp"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <com.github.mikephil.charting.charts.BarChart
-        android:id="@+id/barchart"
-        android:layout_width="match_parent"
-        android:layout_height="450dp"></com.github.mikephil.charting.charts.BarChart>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:textStyle="bold"
-        android:text="BAR GRAPH"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="20dp"/>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/date"
-            android:layout_width="200dp"
-            android:layout_height="48dp"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:textStyle="bold"
-            android:text="TextView" />
-
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="244dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:textStyle="bold"
-            android:background="@android:color/darker_gray"
-            android:text="TextView" />
-    </TableRow>
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <TextView
-            android:id="@+id/op"
-            android:layout_width="198dp"
-            android:layout_height="51dp"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:textStyle="bold"
-            android:background="@android:color/darker_gray"
-            android:text="TextView" />
-
-        <TextView
-            android:id="@+id/cl"
-            android:layout_width="244dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:textStyle="bold"
-            android:text="TextView" />
-    </TableRow>
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <TextView
-            android:id="@+id/hi"
-            android:layout_width="200dp"
-            android:layout_height="54dp"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
             android:gravity="center"
             android:textStyle="bold"
             android:layout_gravity="center"
-            android:text="TextView" />
+            android:text="Stock Analytics"/>
 
+        <Spinner
+            android:id="@+id/sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/barchart"
+            android:layout_width="match_parent"
+            android:layout_height="450dp"></com.github.mikephil.charting.charts.BarChart>
         <TextView
-            android:id="@+id/lo"
-            android:layout_width="244dp"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
             android:gravity="center"
-            android:textStyle="bold"
             android:layout_gravity="center"
-            android:background="@android:color/darker_gray"
-            android:text="TextView" />
-    </TableRow>
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <TextView
-            android:id="@+id/vol"
-            android:layout_width="200dp"
-            android:layout_height="53dp"
-            android:gravity="center"
             android:textStyle="bold"
-            android:layout_gravity="center"
-            android:background="@android:color/darker_gray"
-            android:text="TextView" />
+            android:text="BAR GRAPH"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp"/>
 
-        <TextView
-            android:id="@+id/change"
-            android:layout_width="244dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:layout_gravity="center"
-            android:text="TextView" />
-    </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
 
-    <android.support.design.widget.BottomNavigationView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/bottom_navigation"
-        android:layout_width="fill_parent"
-        android:layout_height="47dp"
-        android:layout_gravity="start"
-        android:background="#2C2929"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/liststockNews"
-        app:menu="@menu/my_navigation_items" />
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="200dp"
+                android:layout_height="48dp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:text="TextView" />
 
-</LinearLayout>
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="244dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:background="@android:color/darker_gray"
+                android:text="TextView" />
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/op"
+                android:layout_width="198dp"
+                android:layout_height="51dp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:background="@android:color/darker_gray"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/cl"
+                android:layout_width="244dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:text="TextView" />
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/hi"
+                android:layout_width="200dp"
+                android:layout_height="54dp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/lo"
+                android:layout_width="244dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:background="@android:color/darker_gray"
+                android:text="TextView" />
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/vol"
+                android:layout_width="200dp"
+                android:layout_height="53dp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:background="@android:color/darker_gray"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/change"
+                android:layout_width="244dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:text="TextView" />
+        </TableRow>
+
+        <android.support.design.widget.BottomNavigationView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/bottom_navigation"
+            android:layout_width="fill_parent"
+            android:layout_height="47dp"
+            android:layout_gravity="start"
+            android:background="#2C2929"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/liststockNews"
+            app:menu="@menu/my_navigation_items" />
+
+    </LinearLayout>
 
 </ScrollView>
