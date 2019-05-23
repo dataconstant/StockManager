@@ -48,7 +48,9 @@ In news feed, a sentiment graph is displayed which tells about where the the sto
 Its an activity which is also based on a realtime update of the stock its help user to get more updates about the particular stock.
 This makes it easy for the user to predict the growth of the stock and whether to invest in it or opt not too.
 #### About Us
-The screen, presents information about the group.
+This activity can be obtained from any activity of
+the app such that it's easy for user to obtain information about the developers of this app. 
+This activity aim is to acknowledge's the efforts of the developers. 
 
 #### Help
 Help includes information on the app and its help. 
