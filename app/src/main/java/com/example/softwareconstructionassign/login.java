@@ -15,7 +15,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-
+//Code by DILEEP VEMULA (u6631257).
 public class login extends AppCompatActivity {
 
 
@@ -23,9 +23,14 @@ public class login extends AppCompatActivity {
     Button signUp;
     EditText email, password;
 
+    //DB refernece
     DatabaseReference dblogin;
 
-
+    /**
+     * OnCreate of login activity.
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,33 +38,33 @@ public class login extends AppCompatActivity {
 
         dblogin = FirebaseDatabase.getInstance().getReference("users");
 
-
         login = findViewById(R.id.buttonLogin);
         signUp = findViewById(R.id.buttonSignUp);
         email = findViewById(R.id.editTextEmail);
         password = findViewById(R.id.textPassword);
 
-
+        //listener for login button press
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 validDataCheck();
-
             }
         });
-
+        //Listener for sign up button press
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addemail();
+                //addemail();
+                checkUserExists();
             }
         });
 
     }
 
-
+    /**
+     * Method to validate entered credentials for login.
+     */
     private void validDataCheck() {
-
         dblogin.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -74,11 +79,20 @@ public class login extends AppCompatActivity {
 
     }
 
+    /**
+     * Method to validate email and password with data in DB. Intent to next activity if both email and password matches with DB data.
+     * Toasts appropriate message if the credentials do not match.
+     *
+     * @param dataSnapshot
+     */
     private void showData(DataSnapshot dataSnapshot) {
+        //get email address entered by user
         String emailaddress1 = email.getText().toString();
+        //get password entered by user
         String pass1 = password.getText().toString();
-        int cond = 0,count=0;
+        int cond = 0, count = 0;
         if (!(emailaddress1.isEmpty() || pass1.isEmpty())) {
+            //Checking every child of users db with email and password entered.
             for (DataSnapshot ds : dataSnapshot.getChildren()) {
                 emailclass eid = new emailclass(ds.getValue());
                 eid.setEmail(ds.child("email").getValue().toString());
@@ -87,13 +101,11 @@ public class login extends AppCompatActivity {
                     cond = 1;
                     break;
                 } else if ((eid.email.equals(emailaddress1) && !eid.password.equals(pass1)) || (!eid.email.equals(emailaddress1) && eid.password.equals(pass1))) {
-                    cond=2;
+                    cond = 2;
                     break;
-                }
-                else count++;
+                } else count++;
             }
-            if (cond == 1 ) {
-                //Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_SHORT).show();
+            if (cond == 1) {
                 Intent myIntent = new Intent(getBaseContext(), mainscreen.class);
                 myIntent.putExtra("email", emailaddress1);
                 startActivity(myIntent);
@@ -101,28 +113,72 @@ public class login extends AppCompatActivity {
             if (cond == 2) {
                 Toast.makeText(getApplicationContext(), "Either email or password is incorrect", Toast.LENGTH_SHORT).show();
             }
-            if (count == dataSnapshot.getChildrenCount()){
-                Toast.makeText(getApplicationContext(),"User does not exist. Please Sign Up",Toast.LENGTH_SHORT).show();
+            if (count == dataSnapshot.getChildrenCount()) {
+                Toast.makeText(getApplicationContext(), "User does not exist. Please Sign Up", Toast.LENGTH_SHORT).show();
             }
         } else {
             Toast.makeText(getApplicationContext(), "Empty! Please enter email or password", Toast.LENGTH_SHORT).show();
         }
     }
 
+    /**
+     * Method to check if user wanting to sign up exists or not.
+     */
+    private void checkUserExists() {
+        dblogin.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                showData1(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    /**
+     * Method to get all children of users from db and compare the email adress with entered email adress and check existing user.
+     * @param dataSnapshot
+     */
+    private void showData1(DataSnapshot dataSnapshot) {
+        boolean cond = false;
+        String emailaddress2 = email.getText().toString();
+        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+            emailclass eid = new emailclass(ds.getValue());
+            eid.setEmail(ds.child("email").getValue().toString());
+            if (eid.email.equals(emailaddress2)) {
+                    cond=true;
+                    break;
+            }
+        }
+       if (cond == false){
+           addemail();
+       }
+       if (cond ==true){
+           Toast.makeText(getApplicationContext(),"User already exists. Please login",Toast.LENGTH_SHORT).show();
+       }
+
+    }
+
+
+    /**
+     * Method to sign up if user does not exist already in db.
+     */
 
     private void addemail() {
-
+        //get email address entered by user.
         String emailaddress = email.getText().toString().trim();
+        //get password entered by user.
         String pass = password.getText().toString().trim();
-
+        //Create new child of user in db if both email and password is not empty.
         if (!(emailaddress.isEmpty() || pass.isEmpty())) {
             String id = emailaddress.split("@")[0];
             emailclass useremail = new emailclass(id, emailaddress, pass, "");
-
             dblogin.child(id).setValue(useremail);
             Toast.makeText(this, "User Registered", Toast.LENGTH_SHORT).show();
-
-
         } else {
             Toast.makeText(this, "Please enter a valid email address to sign up", Toast.LENGTH_SHORT).show();
         }
