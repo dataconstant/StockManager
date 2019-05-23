@@ -2,12 +2,13 @@
     <string name="app_name">Stock Manager</string>
     <string name="screen_portfolio">Portfolio Manager</string>
     <string name="edit_message">Enter password!</string>
-    <string name="keyNewsApi">isto2i4cq7h369pzieouu5wxaw3n8bbjdgorkvaq</string>
-    <string-array name="stocks_array">
-        <item>MSFT</item>
-        <item>MSFT1</item>
 
-    </string-array>
+    <!--Values for News API -->
+    <string name="API_News_URL">https://stocknewsapi.com/api/v1?tickers=</string>
+    <string name="API_News_key">kfpcjr3gnmsrjof4ppekyudomxwoc8eickvsgkgn</string>
+    <string name="API_News_Items">30</string>
+    <string name="API_News_Fallback">true</string>
+
 
 </resources>
 
