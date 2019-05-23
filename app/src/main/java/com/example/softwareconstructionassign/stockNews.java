@@ -18,7 +18,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -30,11 +29,9 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -161,6 +158,7 @@ public class stockNews extends AppCompatActivity {
 
             arrList.clear();
             newsHashMap.clear();
+            newsList.clear();
 
             for (int i=0;  i<value.length();i++){
 
@@ -268,16 +266,26 @@ public class stockNews extends AppCompatActivity {
         }
     }
 
+    /***
+     * move to about activity
+     */
     public void about(){
-        Intent intent = new Intent(getBaseContext(),About.class);
+        Intent intent = new Intent(getBaseContext(),mainscreen.class);
         startActivity(intent);
     }
 
+    /***
+     * move to help
+     */
     public void help(){
-        Intent intent = new Intent(getBaseContext(),Help.class);
+        Intent intent = new Intent(getBaseContext(),analytics.class);
         startActivity(intent);
     }
 
+    /***
+     * select navigation options
+     * @param item
+     */
     public void selectNavigationMenu(MenuItem item){
         switch (item.getItemId()) {
             case R.id.action_dash:
