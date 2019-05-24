@@ -49,10 +49,10 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="103dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="245dp"
+        android:layout_marginBottom="205dp"
         android:background="#63BEE6"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -131,5 +131,18 @@
         android:layout_marginEnd="30dp"
         android:layout_marginRight="30dp"
         android:text="TextView" />
+
+    <EditText
+        android:id="@+id/editvolume"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="89dp"
+        android:ems="10"
+        android:inputType="number" />
 
 </RelativeLayout>

@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -40,15 +41,18 @@ public class mainscreen extends AppCompatActivity {
 
     DatabaseReference dblogin;
     String stocklist = "";
+    String volumelist = "";
     String email;
     ArrayList<String> list = new ArrayList<>();
-    String deletedlist;
+    ArrayList<String> volumearray = new ArrayList<>();
     boolean present;
     ArrayAdapter<String> adapter;
     ListView listview;
     Spinner selectStock;
     TextView search;
     RequestQueue queue;
+    EditText volume;
+    String stringvolume;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +74,7 @@ public class mainscreen extends AppCompatActivity {
         selectStock = findViewById(R.id.selectStock);
         final Button deleteButton = findViewById(R.id.deleteButton);
         final TextView textstocklist = findViewById(R.id.textstocklist);
+        volume = findViewById(R.id.editvolume);
         TextView textView7 = findViewById(R.id.textView7);
         textView7.setText("Welcome "+name.toUpperCase()+"!");
 
@@ -77,7 +82,7 @@ public class mainscreen extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(false);
 
         // Event Listener for getting the data from database and populating the listview and the spinner
-        dblogin.addValueEventListener(new ValueEventListener() {
+        dblogin.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 setlist(dataSnapshot);
@@ -145,8 +150,6 @@ public class mainscreen extends AppCompatActivity {
             }
         });
 
-
-
     }
 
     /***
@@ -156,6 +159,7 @@ public class mainscreen extends AppCompatActivity {
 
     private void deletebutton(){
         if (!list.isEmpty()) {
+
             String selected = selectStock.getSelectedItem().toString();
             int i = 0;
             for (String s : list) {
@@ -164,9 +168,14 @@ public class mainscreen extends AppCompatActivity {
                     break;
                 }
             }
+
             list.remove(i - 1);
-            System.out.println(list.size());
+            volumearray.remove(i);
+
+
             stocklist = "";
+            volumelist="";
+            System.out.println(volumearray);
 
             for (String s : list) {
 
@@ -175,11 +184,24 @@ public class mainscreen extends AppCompatActivity {
                 } else if (list.size() == 0) {
                     stocklist = "";
                 }
-
             }
 
+            for (String s : volumearray) {
+
+                System.out.println("String "+s);
+
+                if (volumearray.size() >= 1 && !s.isEmpty() ) {
+                    volumelist = volumelist + ";" + s;
+                } else if (volumearray.size() == 0) {
+                    volumelist = "";
+                }
+            }
+
+            System.out.println("VolumeList = "+volumearray.size());
+
+
             // This event listener will replace the stock data present in the database.
-            dblogin.addValueEventListener(new ValueEventListener() {
+            dblogin.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -187,13 +209,17 @@ public class mainscreen extends AppCompatActivity {
                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
                         eid = new User(ds.getValue());
                         eid.setEmail(ds.child("email").getValue().toString());
-                        eid.setstocks(ds.child("stocks").getValue().toString());
                         if (email.equals(eid.email)) {
+
                             // Updating the stock list on database.
-                            if (list.size() == 0)
+                            if (list.size() == 0) {
                                 ds.getRef().child("stocks").setValue("");
-                            else
+                                ds.getRef().child("volume").setValue("");
+                            }
+                            else {
                                 ds.getRef().child("stocks").setValue(stocklist);
+                                ds.getRef().child("volume").setValue(volumelist);
+                            }
                         }
                     }
                 }
@@ -220,6 +246,7 @@ public class mainscreen extends AppCompatActivity {
 
     private void searchbutton(){
         String term = search.getText().toString();
+        stringvolume = volume.getText().toString();
         String url = "https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=" + term + "&apikey=GF4EX3XKAFSY29GH";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -236,12 +263,19 @@ public class mainscreen extends AppCompatActivity {
                                     present=true;
                                 }
                             }
-
                             if(present==false) {
                                 if (stocklist != ";") {
                                     stocklist = stocklist + ";" + newstock;
                                 } else {
                                     stocklist = newstock;
+                                }
+                            }
+
+                            if(present==false) {
+                                if (volumelist != ";") {
+                                    volumelist = volumelist + ";" + stringvolume;
+                                } else {
+                                    volumelist = stringvolume;
                                 }
                             }
 
@@ -254,8 +288,10 @@ public class mainscreen extends AppCompatActivity {
                                         eid = new User(ds.getValue());
                                         eid.setEmail(ds.child("email").getValue().toString());
                                         eid.setstocks(ds.child("stocks").getValue().toString());
+                                        eid.setVolume(ds.child("volume").getValue().toString());
                                         if (email.equals(eid.email) && present==false) {
                                             ds.getRef().child("stocks").setValue(stocklist);
+                                            ds.getRef().child("volume").setValue(volumelist);
                                             Toast.makeText(getApplicationContext(), "Added " + newstock + " to your portfolio", Toast.LENGTH_SHORT).show();
                                         }
                                         else if(present==true){
@@ -292,23 +328,29 @@ public class mainscreen extends AppCompatActivity {
             eid = new User(ds.getValue());
             eid.setEmail(ds.child("email").getValue().toString());
             eid.setstocks(ds.child("stocks").getValue().toString());
+            eid.setVolume(ds.child("volume").getValue().toString());
             if (email.equals(eid.email)) {
 
                 // getting the stock data from database after checking the user email.
                 stocklist = eid.getstocks();
+                volumelist = eid.getVolume();
                 String[] separated = stocklist.split(";");
+                String[] volumeseparated = volumelist.split(";");
 
                 for (int i = 1; i < separated.length; i++) {
                     list.add(separated[i]);
+
                     adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, list);
                     listview.setAdapter(adapter);
                     selectStock.setAdapter(adapter);
+                }
+                for(int i=0;i<volumeseparated.length;i++){
+                    volumearray.add(volumeseparated[i]);
                 }
 
             }
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

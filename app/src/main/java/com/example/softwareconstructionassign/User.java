@@ -9,13 +9,23 @@ public class User {
     String email;
     String password;
     String stocks;
+    String volume;
 
 
-    public User(String id, String email, String password, String stocks) {
+    public User(String id, String email, String password, String stocks, String volume) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.stocks = stocks;
+        this.volume = volume;
+    }
+
+    public String getVolume() {
+        return volume;
+    }
+
+    public void setVolume(String volume) {
+        this.volume = volume;
     }
 
     public User(Object value) {

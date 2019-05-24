@@ -183,7 +183,7 @@ public class login extends AppCompatActivity {
         //Create new child of user in db if both email and password is not empty.
         if (!(emailaddress.isEmpty() || pass.isEmpty())) {
             String id = emailaddress.split("@")[0];
-            User useremail = new User(id, emailaddress, pass, "");
+            User useremail = new User(id, emailaddress, pass, "","");
             dblogin.child(id).setValue(useremail);
             Toast.makeText(this, "User Registered", Toast.LENGTH_SHORT).show();
         } else {
