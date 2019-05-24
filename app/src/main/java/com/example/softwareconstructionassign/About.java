@@ -48,11 +48,18 @@ public class About extends AppCompatActivity {
             case R.id.menu_h:
                 help();
                 return true;
+            case R.id.menu_l:
+                logOut();
+                return  true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    private void logOut() {
+        Intent intent = new Intent(getBaseContext(),login.class);
+        startActivity(intent);
+    }
     public void about(){
         Intent intent = new Intent(getBaseContext(),About.class);
 
