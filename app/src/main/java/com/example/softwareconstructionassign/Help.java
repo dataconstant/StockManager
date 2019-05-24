@@ -1,9 +1,7 @@
-/***
+/******
  * Project: Software Construction
- * Author: KRUTHI SENAPATHI
- */
-
-package com.example.softwareconstructionassign;
+ * Author: DILEEP VEMULA (U6631257) AND KRUTHI KRISHNA SENAPATHI (U6601532)
+ */package com.example.softwareconstructionassign;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -86,10 +84,12 @@ public class Help extends AppCompatActivity {
 
     public void about(){
         Intent intent = new Intent(getBaseContext(),About.class);
+
         startActivity(intent);
     }
     public void help(){
         Intent intent = new Intent(getBaseContext(),Help.class);
+
         startActivity(intent);
     }
 }

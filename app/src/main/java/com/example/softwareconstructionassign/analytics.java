@@ -1,3 +1,7 @@
+/******
+ * Project: Software Construction
+ * Author: KRUTHI KRISHNA SENAPATHI (U6601532)
+ */
 package com.example.softwareconstructionassign;
 
 import android.content.Intent;
@@ -38,7 +42,11 @@ public class analytics extends AppCompatActivity {
     String email;
     private String stockCode;
 
-
+    /**
+     * OnCreate of analytics activity.
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,13 +56,13 @@ public class analytics extends AppCompatActivity {
         final RequestQueue queue = Volley.newRequestQueue(this);
         // TextView textView = findViewById(R.id.textView1);
         //textView.setText("Kruthi");
-        mchart =(BarChart) findViewById(R.id.barchart);
+        mchart =(BarChart) findViewById(R.id.barchart); //creating the bar chart.
         mchart.getDescription().setEnabled(false);
         mchart.setFitBars(true);
         final ArrayList stock = getIntent().getStringArrayListExtra("stocklist");
         System.out.println("stocklist "+stock);
         final String s= (String) stock.get(0);
-        final Spinner selectStock = findViewById(R.id.sp);
+        final Spinner selectStock = findViewById(R.id.sp); // creating the drop down list with stocks
         fillDropdownList(selectStock,stock);
         stockCode = stock.get(0).toString();
 
@@ -67,7 +75,7 @@ public class analytics extends AppCompatActivity {
                 stockCode = selectStock.getSelectedItem().toString();
                 // System.out.println(" "+stockCode);
                 String url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=" + stockCode + "&interval=5min&apikey=GF4EX3XKAFSY29GH";
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest // getting the required data by using the JSON file and parsing it
                         (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
@@ -77,7 +85,7 @@ public class analytics extends AppCompatActivity {
                                     String key = (iter.next());
                                     JSONObject result = ts.getJSONObject(key);
                                     System.out.println("Result" + ts);
-                                    int open = result.getInt("1. open");
+                                    int open = result.getInt("1. open"); //get required data
                                     int high = result.getInt("2. high");
                                     int low = result.getInt("3. low");
                                     int close = result.getInt("4. close");
@@ -85,16 +93,16 @@ public class analytics extends AppCompatActivity {
                                     System.out.println(" " + open + " " + high + " " + close + " " + low);
                                     ArrayList<BarEntry> yvals = new ArrayList<>();
                                     yvals.add(new BarEntry(0, (float) open));
-                                    yvals.add(new BarEntry(1, (float) high));
+                                    yvals.add(new BarEntry(1, (float) high));   //set bar data
                                     yvals.add(new BarEntry(2, (float) low));
                                     yvals.add(new BarEntry(3, (float) close));
                                     BarDataSet set = new BarDataSet(yvals, " open,high,low,close of " + stockCode+" respectively ");
-                                    set.setColors(ColorTemplate.MATERIAL_COLORS);
+                                    set.setColors(ColorTemplate.MATERIAL_COLORS); //set colours to the graph
                                     set.setDrawValues(true);
                                     BarData data = new BarData(set);
                                     mchart.setData(data);
                                     mchart.invalidate();
-                                    mchart.animateY(500);
+                                    mchart.animateY(500); // animation while loading the barchart
                                     TextView tdate=(TextView) findViewById(R.id.date);
                                     Long date =System.currentTimeMillis();
                                     SimpleDateFormat sdf = new SimpleDateFormat("MMM dd yyyy\nhh-mm-ss a");
@@ -107,7 +115,7 @@ public class analytics extends AppCompatActivity {
                                     TextView cc=(TextView)findViewById(R.id.cl);
                                     cc.setText("CLOSE STOCK:"+Integer.toString(close));
                                     TextView h=(TextView)findViewById(R.id.hi);
-                                    h.setText("HIGH STOCK VALUE:"+Integer.toString(high));
+                                    h.setText("HIGH STOCK VALUE:"+Integer.toString(high)); //assign values to the respective textview
                                     TextView l=(TextView)findViewById(R.id.lo);
                                     l.setText("LOW STOCK VALUE:"+Integer.toString(low));
                                     TextView v=(TextView)findViewById(R.id.vol);
@@ -226,6 +234,7 @@ public class analytics extends AppCompatActivity {
         });
 
     }
+    //to fill the spinner with the stocks.
     public void fillDropdownList(Spinner selectStock,ArrayList stock){
         if(stock != null){
             final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(),
