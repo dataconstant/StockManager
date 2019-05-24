@@ -1,3 +1,8 @@
+/***
+ * Project: Software Construction
+ * Author: KRUTHI SENAPATHI
+ */
+
 package com.example.softwareconstructionassign;
 
 import android.content.Intent;
@@ -73,12 +78,10 @@ public class Help extends AppCompatActivity {
 
     public void about(){
         Intent intent = new Intent(getBaseContext(),About.class);
-
         startActivity(intent);
     }
     public void help(){
         Intent intent = new Intent(getBaseContext(),Help.class);
-
         startActivity(intent);
     }
 }
