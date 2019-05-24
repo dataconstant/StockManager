@@ -1,13 +1,16 @@
 package com.example.softwareconstructionassign;
 
+import android.app.Activity;
+import android.app.Instrumentation;
 import android.content.Context;
+import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -16,6 +19,9 @@ import static org.junit.Assert.*;
  */
 @RunWith(AndroidJUnit4.class)
 public class ExampleInstrumentedTest {
+
+
+
     @Test
     public void useAppContext() {
         // Context of the app under test.
@@ -23,4 +29,20 @@ public class ExampleInstrumentedTest {
 
         assertEquals("com.example.softwareconstructionassign", appContext.getPackageName());
     }
+
+    /****
+     * Test to check the email string sent from login activity to main screen activity.
+     */
+    @Test
+    public void validateIntentSentToPackage() {
+        Intent login = new Intent();
+        String email = "dileep@gmail.com";
+        login.putExtra("email",email);
+        Instrumentation.ActivityResult result = new Instrumentation.ActivityResult(Activity.RESULT_OK,login);
+
+
+
+    }
+
+
 }

@@ -1,3 +1,7 @@
+/***
+ *  Project: Software Construction
+ *  Author: DILEEP VEMULA
+ */
 package com.example.softwareconstructionassign;
 
 import android.content.Intent;
@@ -62,12 +66,10 @@ public class About extends AppCompatActivity {
     }
     public void about(){
         Intent intent = new Intent(getBaseContext(),About.class);
-
         startActivity(intent);
     }
     public void help(){
         Intent intent = new Intent(getBaseContext(),Help.class);
-
         startActivity(intent);
     }
 }
