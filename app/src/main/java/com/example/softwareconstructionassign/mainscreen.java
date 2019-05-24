@@ -45,6 +45,10 @@ public class mainscreen extends AppCompatActivity {
     String deletedlist;
     boolean present;
     ArrayAdapter<String> adapter;
+    ListView listview;
+    Spinner selectStock;
+    TextView search;
+    RequestQueue queue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,12 +62,12 @@ public class mainscreen extends AppCompatActivity {
         String name = email.split("@")[0];
 
 
-        final TextView search = findViewById(R.id.editText);
+        search = findViewById(R.id.editText);
         final Button buttonsearch = (Button) findViewById(R.id.searchButton);
-        final RequestQueue queue = Volley.newRequestQueue(this);
-        final ListView listview = (ListView) findViewById(R.id.listview);
+        queue = Volley.newRequestQueue(this);
+        listview = (ListView) findViewById(R.id.listview);
         final TextView deleteText = findViewById(R.id.deleteText);
-        final Spinner selectStock = findViewById(R.id.selectStock);
+        selectStock = findViewById(R.id.selectStock);
         final Button deleteButton = findViewById(R.id.deleteButton);
         final TextView textstocklist = findViewById(R.id.textstocklist);
         TextView textView7 = findViewById(R.id.textView7);
@@ -76,26 +80,7 @@ public class mainscreen extends AppCompatActivity {
         dblogin.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                emailclass eid = null;
-                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    eid = new emailclass(ds.getValue());
-                    eid.setEmail(ds.child("email").getValue().toString());
-                    eid.setstocks(ds.child("stocks").getValue().toString());
-                    if (email.equals(eid.email)) {
-
-                        // getting the stock data from database after checking the user email.
-                        stocklist = eid.getstocks();
-                        String[] separated = stocklist.split(";");
-
-                        for (int i = 1; i < separated.length; i++) {
-                            list.add(separated[i]);
-                            adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, list);
-                            listview.setAdapter(adapter);
-                            selectStock.setAdapter(adapter);
-                        }
-
-                    }
-                }
+                setlist(dataSnapshot);
             }
 
             @Override
@@ -103,129 +88,19 @@ public class mainscreen extends AppCompatActivity {
             }
         });
 
-        // CLick listener for searching a string. This will take the input from the user and once the button is pressed, will call API and receive the stock names closest to the search term.
-        // Once the stock symbol has been found. It will check if the symbol is already present in the database and will add it to the database if the symbol is not present.
+        // CLick listener for searching a string.
         buttonsearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String term = search.getText().toString();
-                String url = "https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=" + term + "&apikey=GF4EX3XKAFSY29GH";
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                        (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                try {
-                                    JSONArray ts = response.getJSONArray("bestMatches");
-                                    JSONObject result = ts.getJSONObject(0);
-                                    final String newstock = result.getString("1. symbol");
-                                    present = false;
-
-                                    for(String s:list){
-                                        if(newstock.equals(s)){
-                                            present=true;
-                                        }
-                                    }
-
-                                    if(present==false) {
-                                        if (stocklist != ";") {
-                                            stocklist = stocklist + ";" + newstock;
-                                        } else {
-                                            stocklist = newstock;
-                                        }
-                                    }
-
-                                    // This Event listener will check of the stock is already present in the database and will add it. if the stock is not present.
-                                    dblogin.addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                            emailclass eid = null;
-                                            for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                                                eid = new emailclass(ds.getValue());
-                                                eid.setEmail(ds.child("email").getValue().toString());
-                                                eid.setstocks(ds.child("stocks").getValue().toString());
-                                                if (email.equals(eid.email) && present==false) {
-                                                    ds.getRef().child("stocks").setValue(stocklist);
-                                                    Toast.makeText(getApplicationContext(), "Added " + newstock + " to your portfolio", Toast.LENGTH_SHORT).show();
-                                                }
-                                                else if(present==true){
-                                                    Toast.makeText(getApplicationContext(), "The stock is already added", Toast.LENGTH_SHORT).show();
-                                                    break;
-                                                }
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                                        }
-                                    });
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                            }
-                        });
-                queue.add(jsonObjectRequest);
+                searchbutton();
             }
         });
 
-        // This click listener will delete the stock selected from the spinner. It will first select the stock from the arraylist and then delete the stock from the arraylist.
-        // This will then replace the stock data on the database.
+        // This click listener will delete the stock selected from the spinner.
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String selected = selectStock.getSelectedItem().toString();
-                int i = 0;
-                for (String s : list) {
-                    i++;
-                    if (s.equals(selected)) {
-                        break;
-                    }
-                }
-                list.remove(i - 1);
-                System.out.println(list.size());
-                stocklist = "";
-
-                for (String s : list) {
-
-                    if (list.size() >= 1) {
-                        stocklist = stocklist + ";" + s;
-                    } else if (list.size() == 0) {
-                        stocklist = "";
-                    }
-
-                }
-
-                // This event listener will replace the stock data present in the database.
-                dblogin.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                        emailclass eid = null;
-                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                            eid = new emailclass(ds.getValue());
-                            eid.setEmail(ds.child("email").getValue().toString());
-                            eid.setstocks(ds.child("stocks").getValue().toString());
-                            if (email.equals(eid.email)) {
-                                // Updating the stock list on database.
-                                if (list.size() == 0)
-                                    ds.getRef().child("stocks").setValue("");
-                                else
-                                    ds.getRef().child("stocks").setValue(stocklist);
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                    }
-                });
-
-                listview.setAdapter(adapter);
-                selectStock.setAdapter(adapter);
-
+                deletebutton();
             }
         });
 
@@ -270,6 +145,168 @@ public class mainscreen extends AppCompatActivity {
             }
         });
 
+
+
+    }
+
+    /***
+     * This function will handle the delete operation. It will first select the stock from the arraylist and then delete the stock from the arraylist.
+     * This will then replace the stock data on the database.
+     */
+
+    private void deletebutton(){
+        if (!list.isEmpty()) {
+            String selected = selectStock.getSelectedItem().toString();
+            int i = 0;
+            for (String s : list) {
+                i++;
+                if (s.equals(selected)) {
+                    break;
+                }
+            }
+            list.remove(i - 1);
+            System.out.println(list.size());
+            stocklist = "";
+
+            for (String s : list) {
+
+                if (list.size() >= 1) {
+                    stocklist = stocklist + ";" + s;
+                } else if (list.size() == 0) {
+                    stocklist = "";
+                }
+
+            }
+
+            // This event listener will replace the stock data present in the database.
+            dblogin.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    emailclass eid = null;
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                        eid = new emailclass(ds.getValue());
+                        eid.setEmail(ds.child("email").getValue().toString());
+                        eid.setstocks(ds.child("stocks").getValue().toString());
+                        if (email.equals(eid.email)) {
+                            // Updating the stock list on database.
+                            if (list.size() == 0)
+                                ds.getRef().child("stocks").setValue("");
+                            else
+                                ds.getRef().child("stocks").setValue(stocklist);
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            });
+
+            listview.setAdapter(adapter);
+            selectStock.setAdapter(adapter);
+
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Nothing to delete", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    /***
+     * This will take the input from the user and once the button is pressed, will call API and receive the stock names closest to the search term.
+     * Once the stock symbol has been found. It will check if the symbol is already present in the database and will add it to the database if the symbol is not present.
+     */
+
+    private void searchbutton(){
+        String term = search.getText().toString();
+        String url = "https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=" + term + "&apikey=GF4EX3XKAFSY29GH";
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray ts = response.getJSONArray("bestMatches");
+                            JSONObject result = ts.getJSONObject(0);
+                            final String newstock = result.getString("1. symbol");
+                            present = false;
+
+                            for(String s:list){
+                                if(newstock.equals(s)){
+                                    present=true;
+                                }
+                            }
+
+                            if(present==false) {
+                                if (stocklist != ";") {
+                                    stocklist = stocklist + ";" + newstock;
+                                } else {
+                                    stocklist = newstock;
+                                }
+                            }
+
+                            // This Event listener will check of the stock is already present in the database and will add it. if the stock is not present.
+                            dblogin.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    emailclass eid = null;
+                                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                                        eid = new emailclass(ds.getValue());
+                                        eid.setEmail(ds.child("email").getValue().toString());
+                                        eid.setstocks(ds.child("stocks").getValue().toString());
+                                        if (email.equals(eid.email) && present==false) {
+                                            ds.getRef().child("stocks").setValue(stocklist);
+                                            Toast.makeText(getApplicationContext(), "Added " + newstock + " to your portfolio", Toast.LENGTH_SHORT).show();
+                                        }
+                                        else if(present==true){
+                                            Toast.makeText(getApplicationContext(), "The stock is already added", Toast.LENGTH_SHORT).show();
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                }
+                            });
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                    }
+                });
+        queue.add(jsonObjectRequest);
+    }
+
+    /***
+     * This function will get the data for the user and will update the listview and spinner.
+     * @param dataSnapshot
+     */
+
+    private void setlist(DataSnapshot dataSnapshot){
+        emailclass eid = null;
+        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+            eid = new emailclass(ds.getValue());
+            eid.setEmail(ds.child("email").getValue().toString());
+            eid.setstocks(ds.child("stocks").getValue().toString());
+            if (email.equals(eid.email)) {
+
+                // getting the stock data from database after checking the user email.
+                stocklist = eid.getstocks();
+                String[] separated = stocklist.split(";");
+
+                for (int i = 1; i < separated.length; i++) {
+                    list.add(separated[i]);
+                    adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, list);
+                    listview.setAdapter(adapter);
+                    selectStock.setAdapter(adapter);
+                }
+
+            }
+        }
     }
 
 
@@ -291,9 +328,17 @@ public class mainscreen extends AppCompatActivity {
             case R.id.menu_h:
                 help();
                 return true;
+            case R.id.menu_l:
+                logOut();
+                return  true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void logOut() {
+        Intent intent = new Intent(getBaseContext(),login.class);
+        startActivity(intent);
     }
 
     public void about(){

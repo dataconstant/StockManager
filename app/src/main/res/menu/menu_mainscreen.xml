@@ -10,4 +10,8 @@
         android:id="@+id/menu_h"
         android:title="Help"
         android:visible="true" />
+    <item
+        android:id="@+id/menu_l"
+        android:title="Log Out"
+        android:visible="true" />
 </menu>
