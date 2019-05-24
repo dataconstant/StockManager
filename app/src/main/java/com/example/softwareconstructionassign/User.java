@@ -4,27 +4,27 @@
  */
 package com.example.softwareconstructionassign;
 
-public class emailclass {
+public class User {
     String id;
     String email;
     String password;
     String stocks;
 
 
-    public emailclass(String id, String email, String password, String stocks) {
+    public User(String id, String email, String password, String stocks) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.stocks = stocks;
     }
 
-    public emailclass(Object value) {
+    public User(Object value) {
 
     }
 
     @Override
     public String toString() {
-        return "emailclass{" +
+        return "User{" +
                 "id='" + id + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +

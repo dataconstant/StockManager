@@ -183,9 +183,9 @@ public class mainscreen extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                    emailclass eid = null;
+                    User eid = null;
                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                        eid = new emailclass(ds.getValue());
+                        eid = new User(ds.getValue());
                         eid.setEmail(ds.child("email").getValue().toString());
                         eid.setstocks(ds.child("stocks").getValue().toString());
                         if (email.equals(eid.email)) {
@@ -249,9 +249,9 @@ public class mainscreen extends AppCompatActivity {
                             dblogin.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    emailclass eid = null;
+                                    User eid = null;
                                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                                        eid = new emailclass(ds.getValue());
+                                        eid = new User(ds.getValue());
                                         eid.setEmail(ds.child("email").getValue().toString());
                                         eid.setstocks(ds.child("stocks").getValue().toString());
                                         if (email.equals(eid.email) && present==false) {
@@ -287,9 +287,9 @@ public class mainscreen extends AppCompatActivity {
      */
 
     private void setlist(DataSnapshot dataSnapshot){
-        emailclass eid = null;
+        User eid = null;
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
-            eid = new emailclass(ds.getValue());
+            eid = new User(ds.getValue());
             eid.setEmail(ds.child("email").getValue().toString());
             eid.setstocks(ds.child("stocks").getValue().toString());
             if (email.equals(eid.email)) {

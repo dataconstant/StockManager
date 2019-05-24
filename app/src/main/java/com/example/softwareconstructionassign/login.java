@@ -98,7 +98,7 @@ public class login extends AppCompatActivity {
         if (!(emailaddress1.isEmpty() || pass1.isEmpty())) {
             //Checking every child of users db with email and password entered.
             for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                emailclass eid = new emailclass(ds.getValue());
+                User eid = new User(ds.getValue());
                 eid.setEmail(ds.child("email").getValue().toString());
                 eid.setPassword(ds.child("password").getValue().toString());
                 if (eid.email.equals(emailaddress1) && eid.password.equals(pass1)) {
@@ -153,7 +153,7 @@ public class login extends AppCompatActivity {
         boolean cond = false;
         String emailaddress2 = email.getText().toString();
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
-            emailclass eid = new emailclass(ds.getValue());
+            User eid = new User(ds.getValue());
             eid.setEmail(ds.child("email").getValue().toString());
             if (eid.email.equals(emailaddress2)) {
                     cond=true;
@@ -183,7 +183,7 @@ public class login extends AppCompatActivity {
         //Create new child of user in db if both email and password is not empty.
         if (!(emailaddress.isEmpty() || pass.isEmpty())) {
             String id = emailaddress.split("@")[0];
-            emailclass useremail = new emailclass(id, emailaddress, pass, "");
+            User useremail = new User(id, emailaddress, pass, "");
             dblogin.child(id).setValue(useremail);
             Toast.makeText(this, "User Registered", Toast.LENGTH_SHORT).show();
         } else {
