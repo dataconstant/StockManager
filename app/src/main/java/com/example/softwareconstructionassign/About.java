@@ -1,3 +1,7 @@
+/***
+ *  Project: Software Construction
+ *  Author: DILEEP VEMULA
+ */
 package com.example.softwareconstructionassign;
 
 import android.content.Intent;
@@ -48,7 +52,7 @@ public class About extends AppCompatActivity {
             case R.id.menu_h:
                 help();
                 return true;
-            case R.id.men:
+            case R.id.menu_l:
                 logOut();
                 return  true;
             default:
