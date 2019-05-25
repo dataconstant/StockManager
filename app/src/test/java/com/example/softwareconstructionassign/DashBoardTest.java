@@ -12,6 +12,8 @@ public class DashBoardTest {
     @Test
     public void checkid(){
         assertEquals("abhishekchetri", m.getID("abhishekchetri@outlook.com"));
+        assertEquals("qwe", m.getID("qwe@gmail.com"));
+        assertEquals("123", m.getID("123@outlook.com"));
     }
 
 }
