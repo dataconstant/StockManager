@@ -244,77 +244,81 @@ public class mainscreen extends AppCompatActivity {
      * Once the stock symbol has been found. It will check if the symbol is already present in the database and will add it to the database if the symbol is not present.
      */
 
-    private void searchbutton(){
+    private void searchbutton() {
         String term = search.getText().toString();
         stringvolume = volume.getText().toString();
-        String url = "https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=" + term + "&apikey=GF4EX3XKAFSY29GH";
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            JSONArray ts = response.getJSONArray("bestMatches");
-                            JSONObject result = ts.getJSONObject(0);
-                            final String newstock = result.getString("1. symbol");
-                            present = false;
+        if (!stringvolume.isEmpty()) {
+            String url = "https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=" + term + "&apikey=GF4EX3XKAFSY29GH";
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                    (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                JSONArray ts = response.getJSONArray("bestMatches");
+                                JSONObject result = ts.getJSONObject(0);
+                                final String newstock = result.getString("1. symbol");
+                                present = false;
 
-                            for(String s:list){
-                                if(newstock.equals(s)){
-                                    present=true;
+                                for (String s : list) {
+                                    if (newstock.equals(s)) {
+                                        present = true;
+                                    }
                                 }
-                            }
-                            if(present==false) {
-                                if (stocklist != ";") {
-                                    stocklist = stocklist + ";" + newstock;
-                                } else {
-                                    stocklist = newstock;
-                                }
-                            }
-
-                            if(present==false) {
-                                if (volumelist != ";") {
-                                    volumelist = volumelist + ";" + stringvolume;
-                                } else {
-                                    volumelist = stringvolume;
-                                }
-                            }
-
-                            // This Event listener will check of the stock is already present in the database and will add it. if the stock is not present.
-                            dblogin.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    User eid = null;
-                                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                                        eid = new User(ds.getValue());
-                                        eid.setEmail(ds.child("email").getValue().toString());
-                                        eid.setstocks(ds.child("stocks").getValue().toString());
-                                        eid.setVolume(ds.child("volume").getValue().toString());
-                                        if (email.equals(eid.email) && present==false) {
-                                            ds.getRef().child("stocks").setValue(stocklist);
-                                            ds.getRef().child("volume").setValue(volumelist);
-                                            Toast.makeText(getApplicationContext(), "Added " + newstock + " to your portfolio", Toast.LENGTH_SHORT).show();
-                                        }
-                                        else if(present==true){
-                                            Toast.makeText(getApplicationContext(), "The stock is already added", Toast.LENGTH_SHORT).show();
-                                            break;
-                                        }
+                                if (present == false) {
+                                    if (stocklist != ";") {
+                                        stocklist = stocklist + ";" + newstock;
+                                    } else {
+                                        stocklist = newstock;
                                     }
                                 }
 
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                if (present == false) {
+                                    if (volumelist != ";") {
+                                        volumelist = volumelist + ";" + stringvolume;
+                                    } else {
+                                        volumelist = stringvolume;
+                                    }
                                 }
-                            });
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+
+                                // This Event listener will check of the stock is already present in the database and will add it. if the stock is not present.
+                                dblogin.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        User eid = null;
+                                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                                            eid = new User(ds.getValue());
+                                            eid.setEmail(ds.child("email").getValue().toString());
+                                            eid.setstocks(ds.child("stocks").getValue().toString());
+                                            eid.setVolume(ds.child("volume").getValue().toString());
+                                            if (email.equals(eid.email) && present == false) {
+                                                ds.getRef().child("stocks").setValue(stocklist);
+                                                ds.getRef().child("volume").setValue(volumelist);
+                                                Toast.makeText(getApplicationContext(), "Added " + newstock + " to your portfolio", Toast.LENGTH_SHORT).show();
+                                            } else if (present == true) {
+                                                Toast.makeText(getApplicationContext(), "The stock is already added", Toast.LENGTH_SHORT).show();
+                                                break;
+                                            }
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    }
+                                });
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                    }
-                });
-        queue.add(jsonObjectRequest);
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                        }
+                    });
+            queue.add(jsonObjectRequest);
+        }
+        else {
+            Toast.makeText(getApplicationContext(), "Please enter the volume", Toast.LENGTH_SHORT).show();
+        }
     }
 
     /***
