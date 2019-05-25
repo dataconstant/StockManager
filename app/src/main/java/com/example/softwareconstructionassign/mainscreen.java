@@ -78,7 +78,7 @@ public class mainscreen extends AppCompatActivity {
         final TextView textstocklist = findViewById(R.id.textstocklist);
         volume = findViewById(R.id.editvolume);
         TextView textView7 = findViewById(R.id.textView7);
-        textView7.setText("Welcome "+name.toUpperCase()+"!");
+        textView7.setText("Welcome "+name.toUpperCase()+" !");
 
         //To disable back button
         getSupportActionBar().setHomeButtonEnabled(false);

@@ -5,7 +5,7 @@
 
     <TextView
         android:id="@+id/stockname"
-        android:layout_width="152dp"
+        android:layout_width="207dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
