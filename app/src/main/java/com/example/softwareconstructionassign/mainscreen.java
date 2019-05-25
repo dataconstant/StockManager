@@ -53,6 +53,8 @@ public class mainscreen extends AppCompatActivity {
     RequestQueue queue;
     EditText volume;
     String stringvolume;
+    ArrayList<StockInfo> silist = new ArrayList<>();
+    StockInfoAdapter siadapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,7 +173,7 @@ public class mainscreen extends AppCompatActivity {
             }
 
             list.remove(i - 1);
-            volumearray.remove(i);
+            volumearray.remove(i-1);
 
 
             stocklist = "";
@@ -230,7 +232,7 @@ public class mainscreen extends AppCompatActivity {
                 }
             });
 
-            listview.setAdapter(adapter);
+            listview.setAdapter(siadapter);
             selectStock.setAdapter(adapter);
 
         }
@@ -344,14 +346,16 @@ public class mainscreen extends AppCompatActivity {
 
                 for (int i = 1; i < separated.length; i++) {
                     list.add(separated[i]);
-
-                    adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, list);
-                    listview.setAdapter(adapter);
-                    selectStock.setAdapter(adapter);
-                }
-                for(int i=0;i<volumeseparated.length;i++){
                     volumearray.add(volumeseparated[i]);
+                    silist.add(new StockInfo(separated[i],volumeseparated[i]));
                 }
+
+                    siadapter = new StockInfoAdapter(getBaseContext(), silist);
+                    adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, list);
+                    listview.setAdapter(siadapter);
+                    selectStock.setAdapter(adapter);
+
+
 
             }
         }
