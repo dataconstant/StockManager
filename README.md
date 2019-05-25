@@ -62,9 +62,9 @@ It also has some predefined and answered frequently asked questions to help user
 
 ## Minuted Meetings
 + [Meeting 1 - 21/04/2019 - decide team structure and app](meeting1.md)
-+ [Meeting 2 - 23/04/2019 - divide up tasks](meeting2)
-+ [Meeting 3 - 15/05/2019 - work on existing issues and add new functionality](meeting3)
-+ [Meeting 4 - 22/05/2019 - review and work on documentation](meeting4)
++ [Meeting 2 - 23/04/2019 - divide up tasks](meeting2.md)
++ [Meeting 3 - 15/05/2019 - work on existing issues and add new functionality](meeting3.md)
++ [Meeting 4 - 22/05/2019 - review and work on documentation](meeting.md)
 
 ## Statement of Originality
 I Abhishek Chetri declare that everything I have submitted in this
