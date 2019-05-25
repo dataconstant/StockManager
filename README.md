@@ -80,13 +80,12 @@ I Kruthi Senapathi declare that everything I have submitted in this
 assignment is entirely my own work, with exceptions given below.
 
 ### Inspiration
-_add references from where you obtained the idea form the app and ideas about aspects of the app_
+This is an utilitarian app based on users need for managing stocks list and portfolio. 
 
 ### Code
-_reference all the code or ideas for code from other sources_
++ https://developer.android.com/guide/
++ https://firebase.google.com/docs/
 
-### More Information 
-_please refer to Wiki to obtain detailed information about the project_
 
 ### Assets
 + Credentials for Firebase: Username - softwareconstructionassignment@gmail.com Password - comp6442
