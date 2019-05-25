@@ -65,7 +65,8 @@ public class mainscreen extends AppCompatActivity {
 
         // receiving the bundle information sent from the login activity
         email = (String) getIntent().getSerializableExtra("email");
-        String name = email.split("@")[0];
+        String name = getID();
+
 
 
         search = findViewById(R.id.editText);
@@ -159,6 +160,11 @@ public class mainscreen extends AppCompatActivity {
      * This function will handle the delete operation. It will first select the stock from the arraylist and then delete the stock from the arraylist.
      * This will then replace the stock data on the database.
      */
+
+    public String getID(){
+        String name = email.split("@")[0];
+        return name;
+    }
 
     private void deletebutton(){
         if (!list.isEmpty()) {
