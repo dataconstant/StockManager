@@ -129,25 +129,30 @@ public class stockNews extends AppCompatActivity {
         queue.add(jsonObjectRequest);
     }
 
-    /****
-     * Fill dropdown list
+    /***
+     * fill drop down list
      * @param selectStock
      * @param stockList
+     * @return
      */
-    public void fillDropdownList(Spinner selectStock,ArrayList stockList){
+    public boolean fillDropdownList(Spinner selectStock,ArrayList stockList){
+        if(selectStock == null || stockList == null) return false;
         if(stockList != null){
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(),
                     android.R.layout.simple_list_item_1,stockList);
             selectStock.setAdapter(adapter);
         }
+        return true;
     }
 
-    /*******
+    /***
      * Function to fill the list with news items
      * @param listView
      * @param response
+     * @return
      */
-    public void fillListView(ListView listView,JSONObject response){
+    public boolean fillListView(ListView listView,JSONObject response){
+        if(listView == null || response == null) return false;
         try {
 
             JSONArray value = response.getJSONArray("data");
@@ -182,14 +187,17 @@ public class stockNews extends AppCompatActivity {
             listView.setAdapter(adapter);
         } catch (JSONException e) {
         }
-
+        return true;
     }
 
-    /*****
+    /***
      * function to fill the chart displaying the sentiments about the stocks based on news
      * @param arrListSentiment
+     * @return
      */
-    public void fillChart(int[] arrListSentiment){
+    public boolean fillChart(int[] arrListSentiment){
+
+        if (arrListSentiment == null) return false;
 
         String[] mBarLabel = new String[3];
 
@@ -220,6 +228,8 @@ public class stockNews extends AppCompatActivity {
 
         BarData data=new BarData(set);
         mchart.setData(data);
+
+        return true;
     }
 
     /****
