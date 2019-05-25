@@ -1,4 +1,4 @@
-# App - _Insert app name_
+# App - Stock Manager
 
 ## Team structure and roles
 + Abhishek Chetri u6647717 - Team Leader
@@ -61,10 +61,10 @@ It also has some predefined and answered frequently asked questions to help user
 + [Testing Summary](testingsummary)
 
 ## Minuted Meetings
-+ [Meeting 1 - date - decide team structure and app](meeting1.md)
-+ [Meeting 2 - date - divide up tasks](meeting2)
-+ [Meeting 3 - date - consider and plan extension aspects](meeting3)
-+ [Meeting 4 - date - review and practice demo](meeting4)
++ [Meeting 1 - 21/04/2019 - decide team structure and app](meeting1.md)
++ [Meeting 2 - 23/04/2019 - divide up tasks](meeting2)
++ [Meeting 3 - 15/05/2019 - work on existing issues and add new functionality](meeting3)
++ [Meeting 4 - 22/05/2019 - review and work on documentation](meeting4)
 
 ## Statement of Originality
 I Abhishek Chetri declare that everything I have submitted in this
@@ -89,7 +89,7 @@ _reference all the code or ideas for code from other sources_
 _please refer to Wiki to obtain detailed information about the project_
 
 ### Assets
-+ Credentials for registration: Username - softwareconstructionassignment@gmail.com Password - comp6442
++ Credentials for Firebase: Username - softwareconstructionassignment@gmail.com Password - comp6442
 + Firebase: https://firebase.google.com/
 + Alpha Vantage: https://www.alphavantage.co/
 + Alpha Vantage API key - GF4EX3XKAFSY29GH
