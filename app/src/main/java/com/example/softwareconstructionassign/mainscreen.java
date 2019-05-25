@@ -53,7 +53,7 @@ public class mainscreen extends AppCompatActivity {
     RequestQueue queue;
     EditText volume;
     String stringvolume;
-    ArrayList<StockInfo> silist = new ArrayList<>();
+    ArrayList<stock> silist = new ArrayList<>();
     StockInfoAdapter siadapter;
 
     @Override
@@ -347,7 +347,7 @@ public class mainscreen extends AppCompatActivity {
                 for (int i = 1; i < separated.length; i++) {
                     list.add(separated[i]);
                     volumearray.add(volumeseparated[i]);
-                    silist.add(new StockInfo(separated[i],volumeseparated[i]));
+                    silist.add(new stock(separated[i],volumeseparated[i]));
                 }
 
                     siadapter = new StockInfoAdapter(getBaseContext(), silist);
