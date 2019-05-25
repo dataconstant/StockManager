@@ -53,6 +53,8 @@ public class mainscreen extends AppCompatActivity {
     RequestQueue queue;
     EditText volume;
     String stringvolume;
+    ArrayList<StockInfo> silist = new ArrayList<>();
+    StockInfoAdapter siadapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +78,7 @@ public class mainscreen extends AppCompatActivity {
         final TextView textstocklist = findViewById(R.id.textstocklist);
         volume = findViewById(R.id.editvolume);
         TextView textView7 = findViewById(R.id.textView7);
-        textView7.setText("Welcome "+name.toUpperCase()+"!");
+        textView7.setText("Welcome "+name.toUpperCase()+" !");
 
         //To disable back button
         getSupportActionBar().setHomeButtonEnabled(false);
@@ -141,6 +143,7 @@ public class mainscreen extends AppCompatActivity {
                             Intent newsintent = new Intent(getBaseContext(), stockNews.class);
                             newsintent.putExtra("stocklist", list);
                             newsintent.putExtra("email", email);
+                            newsintent.putExtra("stockvolume", volumearray);
                             startActivity(newsintent);
                         }
                         break;
@@ -170,7 +173,7 @@ public class mainscreen extends AppCompatActivity {
             }
 
             list.remove(i - 1);
-            volumearray.remove(i);
+            volumearray.remove(i-1);
 
 
             stocklist = "";
@@ -229,7 +232,7 @@ public class mainscreen extends AppCompatActivity {
                 }
             });
 
-            listview.setAdapter(adapter);
+            listview.setAdapter(siadapter);
             selectStock.setAdapter(adapter);
 
         }
@@ -343,14 +346,16 @@ public class mainscreen extends AppCompatActivity {
 
                 for (int i = 1; i < separated.length; i++) {
                     list.add(separated[i]);
-
-                    adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, list);
-                    listview.setAdapter(adapter);
-                    selectStock.setAdapter(adapter);
-                }
-                for(int i=0;i<volumeseparated.length;i++){
                     volumearray.add(volumeseparated[i]);
+                    silist.add(new StockInfo(separated[i],volumeseparated[i]));
                 }
+
+                    siadapter = new StockInfoAdapter(getBaseContext(), silist);
+                    adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, list);
+                    listview.setAdapter(siadapter);
+                    selectStock.setAdapter(adapter);
+
+
 
             }
         }
