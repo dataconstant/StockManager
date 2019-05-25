@@ -65,7 +65,7 @@ public class mainscreen extends AppCompatActivity {
 
         // receiving the bundle information sent from the login activity
         email = (String) getIntent().getSerializableExtra("email");
-        String name = getID();
+        String name = getID(email);
 
 
 
@@ -161,7 +161,7 @@ public class mainscreen extends AppCompatActivity {
      * This will then replace the stock data on the database.
      */
 
-    public String getID(){
+    public String getID(String email){
         String name = email.split("@")[0];
         return name;
     }
