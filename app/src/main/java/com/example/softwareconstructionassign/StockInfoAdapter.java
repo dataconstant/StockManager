@@ -1,5 +1,9 @@
 package com.example.softwareconstructionassign;
 
+/**
+ * Author - Abhishek Chetri (u6647717)
+ */
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +16,9 @@ import java.util.ArrayList;
 public class StockInfoAdapter extends BaseAdapter {
 
     Context context;
-    ArrayList<StockInfo> list;
+    ArrayList<stock> list;
 
-    public StockInfoAdapter(Context context, ArrayList<StockInfo> list) {
+    public StockInfoAdapter(Context context, ArrayList<stock> list) {
         this.context = context;
         this.list = list;
     }
@@ -39,7 +43,7 @@ public class StockInfoAdapter extends BaseAdapter {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
         if (inflater!= null) convertView = inflater.inflate(R.layout.stockinfolayout, null);
 
-        StockInfo si = list.get(position);
+        stock si = list.get(position);
         TextView symbol = convertView.findViewById(R.id.stockname);
         TextView volume = convertView.findViewById(R.id.stockvolume);
 
