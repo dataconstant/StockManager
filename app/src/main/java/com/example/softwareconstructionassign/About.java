@@ -30,7 +30,7 @@ public class About extends AppCompatActivity {
         assign.setText(Html.fromHtml(src));
 
         version.setText("version 1.0");
-        String src2 = "<b>"+"Developed by : "+"</b>"+"\"Abhishek Chetri, Mansoor Ali Halari, Kruthi Senapathi and Dileep Vemula.";
+        String src2 = "<b>"+"Developed by : "+"</b>"+"Abhishek Chetri, Mansoor Ali Halari, Kruthi Senapathi and Dileep Vemula.";
         developers.setText(Html.fromHtml(src2));
 
     }
