@@ -141,6 +141,7 @@ public class mainscreen extends AppCompatActivity {
                             Intent newsintent = new Intent(getBaseContext(), stockNews.class);
                             newsintent.putExtra("stocklist", list);
                             newsintent.putExtra("email", email);
+                            newsintent.putExtra("stockvolume", volumearray);
                             startActivity(newsintent);
                         }
                         break;
