@@ -85,12 +85,3 @@ This is an utilitarian app based on users need for managing stocks list and port
 ### Code
 + https://developer.android.com/guide/
 + https://firebase.google.com/docs/
-
-
-### Assets
-+ Credentials for Firebase: Username - softwareconstructionassignment@gmail.com Password - comp6442
-+ Firebase: https://firebase.google.com/
-+ Alpha Vantage: https://www.alphavantage.co/
-+ Alpha Vantage API key - GF4EX3XKAFSY29GH
-+ Stock News: https://stocknewsapi.com/
-+ News API key: isto2i4cq7h369pzieouu5wxaw3n8bbjdgorkvaq
